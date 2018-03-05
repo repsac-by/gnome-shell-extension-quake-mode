@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<schemalist>
+
+  <schema path="/com/github/repsac-by/quake-mode/" id="com.github.repsac-by.quake-mode">
+
+	<key name="quake-mode-app" type="s">
+		<default>'com.gexperts.Tilix.desktop'</default>
+	</key>
+
+	<key name="quake-mode-hotkey" type="as">
+	  <default><![CDATA[['F1']]]></default>
+	</key>
+
+	<key name="quake-mode-monitor" type="i">
+		<range min="0" max="20"/>
+		<default>0</default>
+	</key>
+
+	<key name="quake-mode-width" type="i">
+		<range min="1" max="100"/>
+		<default>80</default>
+	</key>
+
+	<key name="quake-mode-height" type="i">
+		<range min="1" max="100"/>
+		<default>46</default>
+	</key>
+
+	<key name="quake-mode-animation-time" type="d">
+		<range min="0.1" max="2"/>
+		<default>0.25</default>
+	</key>
+
+	<key name="quake-mode-tray" type="b">
+		<default>true</default>
+	</key>
+
+  </schema>
+
+</schemalist>

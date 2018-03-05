@@ -1,0 +1,7 @@
+{
+	"name": "quake-mode",
+	"description": "Drop-down mode for any application",
+	"uuid": "quake-mode@repsac-by.github.com",
+	"shell-version": ["3.26"],
+	"version": 1
+}
