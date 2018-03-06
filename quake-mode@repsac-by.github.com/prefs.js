@@ -104,14 +104,14 @@ const ApplicationWidget
 
 		const searchEntry = new Gtk.SearchEntry();
 		this.attach(searchEntry, 0, 1, 2, 1);
-		searchEntry.connect('search-changed', () => listBox.invalidate_filter());
+
+		searchEntry.connect('search-changed', () => {
+			const filter = searchEntry.text.trim().toLowerCase();
+			listBox.set_filter_func( !filter ? null : row => ~row.__app.name.indexOf(filter) );
+		});
 
 		const collator = new Intl.Collator();
 		listBox.set_sort_func((a, b) => collator.compare(a.__app.name, b.__app.name));
-		listBox.set_filter_func( row =>
-			searchEntry.text.length < 1
-			|| ~row.__app.name.indexOf(searchEntry.text.toLowerCase())
-		);
 
 		listBox.connect('row-activated', (listBox, row) => {
 			entryApp.set_text(row.__app.id);
@@ -121,12 +121,14 @@ const ApplicationWidget
 
 		Gio.app_info_get_all()
 			.filter(a => a.should_show())
-			.forEach(a => listBox.add(buildRow(a)));
+			.forEach(a => listBox.add(buildRow(a, image_size)));
 
 		const scrolledWindow = new Gtk.ScrolledWindow({ expand: true });
 		scrolledWindow.add(listBox);
 
-		function buildRow(app) {
+		this.attach(scrolledWindow, 0, 2, 2, 1);
+
+		function buildRow(app, image_size) {
 			const name = app.get_display_name();
 			const image = Gtk.Image.new_from_gicon(app.get_icon(), Gtk.IconSize.DIALOG);
 
@@ -148,8 +150,6 @@ const ApplicationWidget
 
 			return row;
 		}
-
-		this.attach(scrolledWindow, 0, 2, 2, 1);
 	}
 });
 
