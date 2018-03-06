@@ -11,7 +11,7 @@ const Main    = imports.ui.main;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const { getSettings } = Me.imports.util;
-const { QuakeModeApp } = Me.imports.quakemodeapp;
+const  quakemodeapp = Me.imports.quakemodeapp;
 
 let button, settings, quakeModeApp;
 
@@ -20,13 +20,6 @@ function init() {
 
 function enable() {
 	settings = getSettings();
-
-	settings.connect('changed::quake-mode-app', () => {
-		if (quakeModeApp && quakeModeApp.app.id !== app_id()) {
-			quakeModeApp.destroy();
-			quakeModeApp = null;
-		}
-	});
 
 	setTray(settings.get_boolean('quake-mode-tray'));
 	settings.connect('changed::quake-mode-tray', () => {
@@ -65,8 +58,9 @@ function app_id() {
 function toggle() {
 	try {
 
-		if ( !quakeModeApp )
-			quakeModeApp = new QuakeModeApp(app_id());
+		if ( !quakeModeApp || quakeModeApp.state === quakemodeapp.state.DEAD)
+			quakeModeApp = new quakemodeapp.QuakeModeApp(app_id());
+
 		quakeModeApp.toggle();
 
 	} catch ( e ) {

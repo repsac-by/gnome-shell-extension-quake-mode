@@ -1,6 +1,6 @@
 'use strict';
 
-/* exported QuakeModeApp */
+/* exported QuakeModeApp, state */
 
 const Shell = imports.gi.Shell;
 
@@ -10,8 +10,16 @@ const Tweener = imports.ui.tweener;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { getSettings, on, once } = Me.imports.util;
 
+var state = {
+	READY:    Symbol(),
+	STARTING: Symbol(),
+	RUNNING:  Symbol(),
+	DEAD:     Symbol(),
+};
+
 var QuakeModeApp = class {
 	constructor(app_id) {
+		this.state = state.READY;
 		this.win = null;
 		this.app = Shell.AppSystem.get_default().lookup_app(app_id);
 
@@ -28,6 +36,7 @@ var QuakeModeApp = class {
 	}
 
 	destroy() {
+		this.state = state.DEAD;
 		this.settings.run_dispose();
 		this.settings = null;
 
@@ -64,8 +73,11 @@ var QuakeModeApp = class {
 	toggle() {
 		const { win } = this;
 
-		if ( !win )
+		if ( this.state === state.READY )
 			return this.launch();
+
+		if ( this.state !== state.RUNNING )
+			return;
 
 		if ( win.has_focus() )
 			return this.hide();
@@ -78,6 +90,7 @@ var QuakeModeApp = class {
 
 	launch() {
 		const { app } = this;
+		this.state = state.STARTING;
 
 		once(app, 'windows-changed', () => {
 
@@ -86,9 +99,7 @@ var QuakeModeApp = class {
 
 			this.win = app.get_windows()[0];
 
-			once(this.win, 'unmanaged', () => {
-				this.win = null;
-			});
+			once(this.win, 'unmanaged', () => this.destroy());
 
 			Object.defineProperty(this.actor, 'clip_y', {
 				get()  { return this.clip_rect.origin.y; },
@@ -121,16 +132,19 @@ var QuakeModeApp = class {
 			wm.emit('kill-window-effects', actor);
 
 			once(win, 'size-changed')
-				.then( () => this.show() );
+				.then( () => {
+					this.state = state.RUNNING;
+					this.show();
+				} );
 
 			this.place();
 		});
 	}
 
 	show() {
-		const { win, actor } = this;
+		const { actor } = this;
 
-		if ( !win )
+		if ( this.state !== state.RUNNING )
 			return;
 
 		if ( Tweener.isTweening(actor) )
@@ -149,15 +163,15 @@ var QuakeModeApp = class {
 			onComplete() {
 				this.remove_clip();
 				Main.wm.skipNextEffect(this);
-				Main.activateWindow(win);
+				Main.activateWindow(this.meta_window);
 			},
 		});
 	}
 
 	hide() {
-		const { win, actor } = this;
+		const { actor } = this;
 
-		if ( !win )
+		if ( this.state !== state.RUNNING )
 			return;
 
 		if ( Tweener.isTweening(actor) )
