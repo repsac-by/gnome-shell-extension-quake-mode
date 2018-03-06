@@ -102,8 +102,16 @@ const ApplicationWidget
 
 		const listBox = new Gtk.ListBox({ activate_on_single_click: false });
 
+		const searchEntry = new Gtk.SearchEntry();
+		this.attach(searchEntry, 0, 1, 2, 1);
+		searchEntry.connect('search-changed', () => listBox.invalidate_filter());
+
 		const collator = new Intl.Collator();
 		listBox.set_sort_func((a, b) => collator.compare(a.__app.name, b.__app.name));
+		listBox.set_filter_func( row =>
+			searchEntry.text.length < 1
+			|| ~row.__app.name.indexOf(searchEntry.text.toLowerCase())
+		);
 
 		listBox.connect('row-activated', (listBox, row) => {
 			entryApp.set_text(row.__app.id);
@@ -118,10 +126,8 @@ const ApplicationWidget
 		const scrolledWindow = new Gtk.ScrolledWindow({ expand: true });
 		scrolledWindow.add(listBox);
 
-		this.attach(scrolledWindow, 0, 1, 2, 1);
-
 		function buildRow(app) {
-			const name = app.get_name();
+			const name = app.get_display_name();
 			const image = Gtk.Image.new_from_gicon(app.get_icon(), Gtk.IconSize.DIALOG);
 
 			image.set_pixel_size(image_size);
@@ -135,10 +141,15 @@ const ApplicationWidget
 			const row = new Gtk.ListBoxRow();
 			row.add(grid);
 
-			row.__app = { id: app.get_id(), name: name };
+			row.__app = {
+				id: app.get_id(),
+				name: name.toLowerCase(),
+			};
 
 			return row;
 		}
+
+		this.attach(scrolledWindow, 0, 2, 2, 1);
 	}
 });
 
