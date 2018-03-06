@@ -6,6 +6,10 @@
 git clone https://github.com/repsac-by/gnome-shell-extension-quake-mode.git
 
 cp -rt ~/.local/share/gnome-shell/extensions gnome-shell-extension-quake-mode/quake-mode@repsac-by.github.com
+
+gnome-shell-extension-prefs quake-mode@repsac-by.github.com
+
+gnome-shell-extension-tool -e quake-mode@repsac-by.github.com
 ```
 
 ## Know issues
