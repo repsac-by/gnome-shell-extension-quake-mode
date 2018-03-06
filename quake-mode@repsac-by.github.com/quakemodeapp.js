@@ -11,6 +11,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { getSettings, on, once } = Me.imports.util;
 
 var state = {
+	INITIAL:  Symbol(),
 	READY:    Symbol(),
 	STARTING: Symbol(),
 	RUNNING:  Symbol(),
@@ -19,12 +20,14 @@ var state = {
 
 var QuakeModeApp = class {
 	constructor(app_id) {
-		this.state = state.READY;
-		this.win = null;
-		this.app = Shell.AppSystem.get_default().lookup_app(app_id);
+		this.state = state.INITIAL;
+		this.win   = null;
+		this.app   = Shell.AppSystem.get_default().lookup_app(app_id);
 
-		if ( !this.app )
+		if ( !this.app ) {
+			this.state = state.DEAD;
 			throw new Error(`application '${app_id}' not found`);
+		}
 
 		const place = () => this.place();
 
@@ -33,6 +36,8 @@ var QuakeModeApp = class {
 		settings.connect('changed::quake-mode-width',   place);
 		settings.connect('changed::quake-mode-height',  place);
 		settings.connect('changed::quake-mode-monitor', place);
+
+		this.state = state.READY;
 	}
 
 	destroy() {
