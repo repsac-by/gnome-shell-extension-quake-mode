@@ -1,6 +1,7 @@
 'use strict';
 
 /* exported init, buildPrefsWidget */
+/* global Intl */
 
 const GObject = imports.gi.GObject;
 const Gdk = imports.gi.Gdk;
@@ -96,15 +97,48 @@ const ApplicationWidget
 
 		settings.bind('quake-mode-app', entryApp, 'text', Gio.SettingsBindFlags.DEFAULT);
 
-		const appChooser = new Gtk.AppChooserWidget({ vexpand: true, show_all: true });
-
-		appChooser.connect('application-activated', (obj, app ) => {
-			entryApp.set_text(app.get_id());
-		});
-
 		this.attach(new Gtk.Label({	label: _('Application'), halign: Gtk.Align.END }), 0, 0, 1, 1);
 		this.attach(entryApp, 1, 0, 1, 1);
-		this.attach(appChooser, 0, 1, 2, 1);
+
+		const listBox = new Gtk.ListBox({ activate_on_single_click: false });
+
+		const collator = new Intl.Collator();
+		listBox.set_sort_func((a, b) => collator.compare(a.__app.name, b.__app.name));
+
+		listBox.connect('row-activated', (listBox, row) => {
+			entryApp.set_text(row.__app.id);
+		});
+
+		const image_size = Gtk.IconSize.lookup(Gtk.IconSize.DIALOG)[2];
+
+		Gio.app_info_get_all()
+			.filter(a => a.should_show())
+			.forEach(a => listBox.add(buildRow(a)));
+
+		const scrolledWindow = new Gtk.ScrolledWindow({ expand: true });
+		scrolledWindow.add(listBox);
+
+		this.attach(scrolledWindow, 0, 1, 2, 1);
+
+		function buildRow(app) {
+			const name = app.get_name();
+			const image = Gtk.Image.new_from_gicon(app.get_icon(), Gtk.IconSize.DIALOG);
+
+			image.set_pixel_size(image_size);
+
+			const label = new Gtk.Label({ label: name });
+			const grid  = new Gtk.Grid({ hexpand: true, column_spacing: 5 });
+
+			grid.attach(image, 0, 0, 1, 1);
+			grid.attach(label, 1, 0, 1, 1);
+
+			const row = new Gtk.ListBoxRow();
+			row.add(grid);
+
+			row.__app = { id: app.get_id(), name: name };
+
+			return row;
+		}
 	}
 });
 
