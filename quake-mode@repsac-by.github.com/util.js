@@ -6,44 +6,39 @@ const Gio = imports.gi.Gio;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-function on(obj, signal, cb) {
-	const sig = {
-		id: 0,
-		name: signal,
-		off() {
-			obj.disconnect(this.id);
-		}
-	};
+class Signal {
+	constructor(target, name, cb) {
+		this.name = name;
+		this.target = target;
 
-	sig.id = obj.connect(signal, (...args) => cb(sig, ...args));
-
-	return sig;
+		this.id = target.connect(name, (...args) => cb(this, ...args));
+	}
+	off() {
+		this.target.disconnect(this.id);
+	}
 }
 
-function once(obj, signal, cb) {
-	if ( typeof cb !== 'function')
+function on(target, signal_name, cb) {
+	return new Signal(target, signal_name, cb);
+}
+
+function once(target, signal_name, cb) {
+	if ( typeof cb !== 'function' )
 		return new Promise( resolve => {
-			const signalId = obj.connect(signal, (...args) => {
-				obj.disconnect(signalId);
+			const signalId = target.connect(signal_name, (...args) => {
+				target.disconnect(signalId);
 				resolve(...args);
 			});
 		});
 
-
-	const sig = {
-		id: 0,
-		name: signal,
-		off() {
-			obj.disconnect(this.id);
-		}
-	};
-
-	sig.id = obj.connect(signal, (...args) => {
-		obj.disconnect(sig.id);
+	let disconnected = false;
+	return new Signal(target, signal_name, (signal, ...args) => {
+		if ( disconnected )
+			return;
+		disconnected = true;
+		signal.off();
 		cb(...args);
 	});
-
-	return sig;
 }
 
 function getSettings() {
