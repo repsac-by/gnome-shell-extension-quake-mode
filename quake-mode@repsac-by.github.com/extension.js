@@ -55,13 +55,13 @@ function app_id() {
 	return settings.get_string('quake-mode-app');
 }
 
-function toggle() {
+async function toggle() {
 	try {
 
 		if ( !quakeModeApp || quakeModeApp.state === quakemodeapp.state.DEAD)
 			quakeModeApp = new quakemodeapp.QuakeModeApp(app_id());
 
-		quakeModeApp.toggle();
+		await quakeModeApp.toggle();
 
 	} catch ( e ) {
 		Main.notify('Quake-mode', e.message);
