@@ -118,7 +118,9 @@ var QuakeModeApp = class {
 		const { app } = this;
 		this.state = state.STARTING;
 
-		once(app, 'windows-changed', () => {
+		app.open_new_window(-1);
+
+		return once(app, 'windows-changed').then( () => {
 
 			if (app.get_n_windows() < 1)
 				return;
@@ -129,8 +131,6 @@ var QuakeModeApp = class {
 
 			this.first_place();
 		});
-
-		app.open_new_window(-1);
 	}
 
 	first_place() {
