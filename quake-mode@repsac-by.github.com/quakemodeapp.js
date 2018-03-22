@@ -2,6 +2,7 @@
 
 /* exported QuakeModeApp, state */
 
+const GLib = imports.gi.GLib;
 const Shell = imports.gi.Shell;
 
 const Main    = imports.ui.main;
@@ -100,7 +101,12 @@ var QuakeModeApp = class {
 		const { win } = this;
 
 		if ( this.state === state.READY )
-			return this.launch();
+			return this.launch()
+				.then(() => this.first_place())
+				.catch( e => {
+					this.destroy();
+					throw e;
+				});
 
 		if ( this.state !== state.RUNNING )
 			return;
@@ -120,16 +126,24 @@ var QuakeModeApp = class {
 
 		app.open_new_window(-1);
 
-		return once(app, 'windows-changed').then( () => {
+		return new Promise( (resolve, reject) => {
+			const timer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
+				sig.off();
+				reject(new Error(`launch '${this.app.id}' timeout`));
+			});
 
-			if (app.get_n_windows() < 1)
-				return;
+			const sig = once(app, 'windows-changed', () => {
+				GLib.source_remove(timer);
 
-			this.win = app.get_windows()[0];
+				if (app.get_n_windows() < 1)
+					return reject(`app '${this.app.id}' is launched but no windows`);
 
-			once(this.win, 'unmanaged', () => this.destroy());
+				this.win = app.get_windows()[0];
 
-			this.first_place();
+				once(this.win, 'unmanaged', () => this.destroy());
+
+				resolve();
+			});
 		});
 	}
 
