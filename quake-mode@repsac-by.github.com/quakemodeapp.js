@@ -127,7 +127,7 @@ var QuakeModeApp = class {
 		app.open_new_window(-1);
 
 		return new Promise( (resolve, reject) => {
-			const timer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
+			const timer = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 5000, () => {
 				sig.off();
 				reject(new Error(`launch '${this.app.id}' timeout`));
 			});
