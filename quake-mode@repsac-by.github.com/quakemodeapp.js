@@ -49,7 +49,28 @@ var QuakeModeApp = class {
 		this.app = null;
 	}
 
-	get actor() { return this.win ? this.win.get_compositor_private() : null; }
+	get actor() {
+		if ( ! this.win )
+			return null;
+
+		const actor = this.win.get_compositor_private();
+
+		if ( ! actor )
+			return null;
+
+		return 'clip_y' in actor
+			? actor
+			: Object.defineProperty(actor, 'clip_y', {
+				get()  { return this.clip_rect.origin.y; },
+				set(y) {
+					const rect = this.clip_rect;
+					this.set_clip(
+						rect.origin.x,	 y,
+						rect.size.width, rect.size.height
+					);
+				}
+			});
+	}
 
 	get width()  { return this.settings.get_int('quake-mode-width'); }
 
@@ -105,17 +126,6 @@ var QuakeModeApp = class {
 			this.win = app.get_windows()[0];
 
 			once(this.win, 'unmanaged', () => this.destroy());
-
-			Object.defineProperty(this.actor, 'clip_y', {
-				get()  { return this.clip_rect.origin.y; },
-				set(y) {
-					const rect = this.clip_rect;
-					this.set_clip(
-						rect.origin.x,	 y,
-						rect.size.width, rect.size.height
-					);
-				}
-			});
 
 			this.first_place();
 		});
