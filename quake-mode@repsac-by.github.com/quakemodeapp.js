@@ -11,11 +11,11 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { getSettings, on, once } = Me.imports.util;
 
 var state = {
-	INITIAL:  Symbol(),
-	READY:    Symbol(),
-	STARTING: Symbol(),
-	RUNNING:  Symbol(),
-	DEAD:     Symbol(),
+	INITIAL:  Symbol('INITIAL'),
+	READY:    Symbol('READY'),
+	STARTING: Symbol('STARTING'),
+	RUNNING:  Symbol('RUNNING'),
+	DEAD:     Symbol('DEAD'),
 };
 
 var QuakeModeApp = class {
