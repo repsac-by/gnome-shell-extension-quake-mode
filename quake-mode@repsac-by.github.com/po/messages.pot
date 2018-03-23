@@ -1,0 +1,62 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-03-23 09:44+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js:42
+msgid "Icon"
+msgstr ""
+
+#: prefs.js:52
+msgid "Width - %"
+msgstr ""
+
+#: prefs.js:62
+msgid "Height - %"
+msgstr ""
+
+#: prefs.js:72
+msgid "Monitor"
+msgstr ""
+
+#: prefs.js:82
+msgid "Animation time - s"
+msgstr ""
+
+#: prefs.js:101 prefs.js:207
+msgid "Application"
+msgstr ""
+
+#: prefs.js:165
+msgid "Toggle"
+msgstr ""
+
+#: prefs.js:171
+msgid "Action"
+msgstr ""
+
+#: prefs.js:174
+msgid "Shortcut Key"
+msgstr ""
+
+#: prefs.js:206
+msgid "Main"
+msgstr ""
+
+#: prefs.js:208
+msgid "Accelerators"
+msgstr ""

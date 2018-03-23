@@ -1,6 +1,8 @@
 'use strict';
 
-/* exported on, once, getSettings */
+/* exported on, once, getSettings, initTranslations */
+const Gettext = imports.gettext;
+const Config = imports.misc.config;
 
 const Gio = imports.gi.Gio;
 
@@ -55,4 +57,13 @@ function getSettings() {
 		throw new Error('Schema missing.');
 
 	return new Gio.Settings( { settings_schema: schema } );
+}
+
+function initTranslations(domain = Me.uuid) {
+
+	const localeDir = Me.dir.get_child('locale');
+	if ( localeDir.query_exists(null) )
+		Gettext.bindtextdomain(domain, localeDir.get_path());
+	else
+		Gettext.bindtextdomain(domain, Config.LOCALEDIR);
 }

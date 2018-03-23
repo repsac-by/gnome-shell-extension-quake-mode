@@ -8,17 +8,18 @@ const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 
-const Gettext = imports.gettext.domain('gnome-shell-extensions');
-const _ = Gettext.gettext;
-
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
-const { getSettings } = Me.imports.util;
+const Gettext = imports.gettext.domain(Me.uuid);
+const _ = Gettext.gettext;
+
+const { getSettings, initTranslations } = Me.imports.util;
 
 let settings;
 
 function init() {
 	settings = getSettings();
+	initTranslations();
 }
 
 const QuakeModePrefsWidget
@@ -31,14 +32,14 @@ const QuakeModePrefsWidget
 		this.set_orientation(Gtk.Orientation.VERTICAL);
 
 		let r = -1;
-		const label = label => new Gtk.Label({ label: _(label), halign: Gtk.Align.END});
+		const label = label => new Gtk.Label({ label: label, halign: Gtk.Align.END});
 
 		// Tray Icon
 		const switchTray = new Gtk.Switch({ halign: Gtk.Align.START });
 
 		settings.bind('quake-mode-tray', switchTray, 'state', Gio.SettingsBindFlags.DEFAULT);
 
-		this.attach(label('Icon'), 0, ++r, 1, 1);
+		this.attach(label(_('Icon')), 0, ++r, 1, 1);
 		this.attach(switchTray, 1, r, 1, 1);
 
 		// Width
@@ -48,7 +49,7 @@ const QuakeModePrefsWidget
 
 		settings.bind('quake-mode-width', spinWidth, 'value', Gio.SettingsBindFlags.DEFAULT);
 
-		this.attach(label('Width - %'), 0, ++r, 1, 1);
+		this.attach(label(_('Width - %')), 0, ++r, 1, 1);
 		this.attach(spinWidth, 1, r, 1, 1);
 
 		// Height
@@ -58,7 +59,7 @@ const QuakeModePrefsWidget
 
 		settings.bind('quake-mode-height', spinHeight, 'value', Gio.SettingsBindFlags.DEFAULT);
 
-		this.attach(label('Height - %'), 0, ++r, 1, 1);
+		this.attach(label(_('Height - %')), 0, ++r, 1, 1);
 		this.attach(spinHeight, 1, r, 1, 1);
 
 		// Height
@@ -68,7 +69,7 @@ const QuakeModePrefsWidget
 
 		settings.bind('quake-mode-monitor', spinMonitor, 'value', Gio.SettingsBindFlags.DEFAULT);
 
-		this.attach(label('Monitor'), 0, ++r, 1, 1);
+		this.attach(label(_('Monitor')), 0, ++r, 1, 1);
 		this.attach(spinMonitor, 1, r, 1, 1);
 
 		// Time
@@ -78,7 +79,7 @@ const QuakeModePrefsWidget
 
 		settings.bind('quake-mode-animation-time', spinTime, 'value', Gio.SettingsBindFlags.DEFAULT);
 
-		this.attach(label('Animation time - s'), 0, ++r, 1, 1);
+		this.attach(label(_('Animation time - s')), 0, ++r, 1, 1);
 		this.attach(spinTime, 1, r, 1, 1);
 	}
 });
@@ -161,16 +162,16 @@ const AcceleratorsWidget
 
 		const updateRow = iter => {
 			const a = settings.get_strv('quake-mode-hotkey')[0] || '';
-			this.model.set(iter, [0, 1], [ 'Toggle', a ]);
+			this.model.set(iter, [0, 1], [ _('Toggle'), a ]);
 		};
 
 		// Hotkey
 		const iter = this.model.append();
 
-		const actions      = new Gtk.TreeViewColumn({ title: _("_Action"), expand: true });
+		const actions      = new Gtk.TreeViewColumn({ title: _('Action'), expand: true });
 		const nameRender = new Gtk.CellRendererText();
 
-		const accels      = new Gtk.TreeViewColumn({ title: _("Shortcut _Key"), min_width: 150 });
+		const accels      = new Gtk.TreeViewColumn({ title: _('Shortcut Key'), min_width: 150 });
 		const accelRender = new Gtk.CellRendererAccel({ editable: true });
 
 		actions.pack_start(nameRender, true);
@@ -202,8 +203,8 @@ const Notebook
 = GObject.registerClass(class Notebook extends Gtk.Notebook {
 	_init(params) {
 		super._init(params);
-		this.append_page(new QuakeModePrefsWidget, new Gtk.Label({  label: _('Main') }));
-		this.append_page(new ApplicationWidget,    new Gtk.Label({  label: _('Application') }));
+		this.append_page(new QuakeModePrefsWidget, new Gtk.Label({ label: _('Main') }));
+		this.append_page(new ApplicationWidget,    new Gtk.Label({ label: _('Application') }));
 		this.append_page(new AcceleratorsWidget,   new Gtk.Label({ label: _('Accelerators') }));
 	}
 });
