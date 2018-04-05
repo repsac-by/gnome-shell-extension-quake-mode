@@ -43,8 +43,11 @@ var QuakeModeApp = class {
 
 	destroy() {
 		this.state = state.DEAD;
-		this.settings.run_dispose();
-		this.settings = null;
+
+		if ( this.settings ) {
+			this.settings.run_dispose();
+			this.settings = null;
+		}
 
 		this.win = null;
 		this.app = null;
