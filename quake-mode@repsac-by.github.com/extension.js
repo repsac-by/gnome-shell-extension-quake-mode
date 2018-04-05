@@ -40,11 +40,6 @@ function disable() {
 
 	Main.wm.removeKeybinding('quake-mode-hotkey');
 
-	if ( quakeModeApp ) {
-		quakeModeApp.destroy();
-		quakeModeApp = null;
-	}
-
 	if ( settings ) {
 		settings.run_dispose();
 		settings = null;
