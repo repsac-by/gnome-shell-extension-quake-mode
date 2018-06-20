@@ -131,7 +131,10 @@ const ApplicationWidget
 
 		function buildRow(app, image_size) {
 			const name = app.get_display_name();
-			const image = Gtk.Image.new_from_gicon(app.get_icon(), Gtk.IconSize.DIALOG);
+			const icon = app.get_icon();
+			const image = icon
+				? Gtk.Image.new_from_gicon(icon, Gtk.IconSize.DIALOG)
+				: Gtk.Image.new_from_icon_name('application-x-executable', Gtk.IconSize.DIALOG);
 
 			image.set_pixel_size(image_size);
 
