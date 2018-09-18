@@ -2,6 +2,7 @@
 
 /* exported QuakeModeApp, state */
 
+const Gdk = imports.gi.Gdk;
 const GLib = imports.gi.GLib;
 const Shell = imports.gi.Shell;
 
@@ -93,7 +94,7 @@ var QuakeModeApp = class {
 		if ( monitor < 0 )
 			return 0;
 
-		const max = win.get_screen().get_n_monitors() - 1;
+		const max = Gdk.Screen.get_default().get_n_monitors() - 1;
 		if ( monitor > max )
 			return max;
 
