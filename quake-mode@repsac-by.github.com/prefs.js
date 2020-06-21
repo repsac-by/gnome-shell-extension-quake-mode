@@ -42,6 +42,14 @@ const QuakeModePrefsWidget
 		this.attach(label(_('Icon')), 0, ++r, 1, 1);
 		this.attach(switchTray, 1, r, 1, 1);
 
+		// Minimize on Focus Out
+		const switchFocusOut = new Gtk.Switch({ halign: Gtk.Align.START });
+
+		settings.bind('quake-mode-focusout', switchFocusOut, 'state', Gio.SettingsBindFlags.DEFAULT);
+
+		this.attach(label(_('Minimize on focus out')), 0, ++r, 1, 1);
+		this.attach(switchFocusOut, 1, r, 1, 1);
+
 		// Width
 		const spinWidth = new Gtk.SpinButton();
 		spinWidth.set_range(0, 100);
