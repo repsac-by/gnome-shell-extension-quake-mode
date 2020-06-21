@@ -81,6 +81,8 @@ var QuakeModeApp = class {
 
 	get height() { return this.settings.get_int('quake-mode-height'); }
 
+	get focusout() { return this.settings.get_boolean('quake-mode-focusout'); }
+
 	get ainmation_time() { return this.settings.get_double('quake-mode-animation-time'); }
 
 	get monitor() {
@@ -175,13 +177,15 @@ var QuakeModeApp = class {
 	}
 
 	show() {
-		const { actor } = this;
+		const { actor, focusout } = this;
 
 		if ( this.state !== state.RUNNING )
 			return;
 
 		if ( Tweener.isTweening(actor) )
 			return;
+
+		const quake = this;
 
 		Tweener.addTween(actor, {
 			translation_y: 0,
@@ -197,6 +201,9 @@ var QuakeModeApp = class {
 				this.remove_clip();
 				Main.wm.skipNextEffect(this);
 				Main.activateWindow(this.meta_window);
+				if ( focusout )
+					once(global.display, 'notify::focus-window')
+						.then(() => quake.hide());
 			},
 		});
 	}
