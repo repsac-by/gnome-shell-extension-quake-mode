@@ -11,6 +11,7 @@ const Tweener = imports.ui.tweener;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { getSettings, on, once } = Me.imports.util;
+const { WindowHider } = Me.imports.windowHider;
 
 var state = {
 	INITIAL:  Symbol('INITIAL'),
@@ -48,6 +49,11 @@ var QuakeModeApp = class {
 		if ( this.settings ) {
 			this.settings.run_dispose();
 			this.settings = null;
+		}
+
+		if ( this.windowHider ) {
+			this.windowHider.destroy();
+			this.windowHider = null;
 		}
 
 		this.win = null;
@@ -145,6 +151,7 @@ var QuakeModeApp = class {
 					return reject(`app '${this.app.id}' is launched but no windows`);
 
 				this.win = app.get_windows()[0];
+				this.windowHider = new WindowHider(this.win);
 
 				once(this.win, 'unmanaged', () => this.destroy());
 
