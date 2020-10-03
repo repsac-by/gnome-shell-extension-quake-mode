@@ -2,12 +2,9 @@
 
 /* exported QuakeModeApp, state */
 
-const Gdk = imports.gi.Gdk;
-const GLib = imports.gi.GLib;
-const Shell = imports.gi.Shell;
+const { Clutter, Gdk, GLib, Shell } = imports.gi;
 
-const Main    = imports.ui.main;
-const Tweener = imports.ui.tweener;
+const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { getSettings, on, once } = Me.imports.util;
@@ -40,6 +37,7 @@ var QuakeModeApp = class {
 		settings.connect('changed::quake-mode-monitor', place);
 
 		this.state = state.READY;
+		this.isAnimating = false;
 	}
 
 	destroy() {
@@ -83,7 +81,7 @@ var QuakeModeApp = class {
 
 	get focusout() { return this.settings.get_boolean('quake-mode-focusout'); }
 
-	get ainmation_time() { return this.settings.get_double('quake-mode-animation-time'); }
+	get animation_time() { return this.settings.get_double('quake-mode-animation-time') * 1000; }
 
 	get monitor() {
 		const { win, settings } = this;
@@ -177,60 +175,81 @@ var QuakeModeApp = class {
 	}
 
 	show() {
-		const { actor, focusout } = this;
+		const { actor } = this;
 
-		if ( this.state !== state.RUNNING )
+		if ( this.state !== state.RUNNING || this.isAnimating )
 			return;
 
-		if ( Tweener.isTweening(actor) )
+		actor.get_parent().set_child_above_sibling(actor, null);
+
+		if ( this.animation_time === 0 ) {
+			this.showWindow();
+
 			return;
+		}
 
-		const quake = this;
+		this.isAnimating = true;
+		actor.clip_to_allocation = true;
+		actor.set_clip(0, this.height, this.width, this.height);
+		actor.translation_y = - actor.height;
+		this.actor.show();
 
-		Tweener.addTween(actor, {
+		actor.ease({
 			translation_y: 0,
 			clip_y: 0,
-			time: this.ainmation_time,
-			onStart() {
-				this.get_parent().set_child_above_sibling(actor, null);
-				this.set_clip(0, this.height, this.width, this.height);
-				actor.translation_y = - actor.height,
-				this.show();
-			},
-			onComplete() {
-				this.remove_clip();
-				Main.wm.skipNextEffect(this);
-				Main.activateWindow(this.meta_window);
-				if ( focusout )
-					once(global.display, 'notify::focus-window')
-						.then(() => quake.hide());
+			duration: this.animation_time,
+			mode: Clutter.AnimationMode.EASE_OUT_QUAD,
+
+			onComplete: () => {
+				this.showWindow();
+				this.isAnimating = false;
 			},
 		});
+	}
+
+	showWindow() {
+		Main.wm.skipNextEffect(this.actor);
+		this.actor.remove_clip();
+		this.actor.show();
+		Main.activateWindow(this.actor.meta_window);
+
+		if ( this.focusout )
+			once(global.display, 'notify::focus-window')
+				.then(() => this.hide());
 	}
 
 	hide() {
 		const { actor } = this;
 
-		if ( this.state !== state.RUNNING )
+		if ( this.state !== state.RUNNING || this.isAnimating )
 			return;
 
-		if ( Tweener.isTweening(actor) )
-			return;
+		if ( this.animation_time === 0 ) {
+			this.hideWindow();
+		}
 
-		Tweener.addTween(actor, {
+		this.isAnimating = true;
+		actor.clip_to_allocation = true;
+		actor.set_clip(0, 0, this.width, this.height);
+
+		actor.ease({
 			translation_y: - actor.height,
 			clip_y: actor.height,
-			time: this.ainmation_time,
-			onStart() {
-				this.set_clip(0, 0, this.width, this.height);
-			},
-			onComplete() {
-				Main.wm.skipNextEffect(this);
-				this.meta_window.minimize();
-				this.translation_y = 0;
-				this.remove_clip();
+			duration: this.animation_time,
+			mode: Clutter.AnimationMode.EASE_IN_QUAD,
+
+			onComplete: () => {
+				this.hideWindow();
+				actor.remove_clip();
+				actor.translation_y = 0;
+				this.isAnimating = false;
 			},
 		});
+	}
+
+	hideWindow() {
+		Main.wm.skipNextEffect(this.actor);
+		this.actor.meta_window.minimize();
 	}
 
 	place() {

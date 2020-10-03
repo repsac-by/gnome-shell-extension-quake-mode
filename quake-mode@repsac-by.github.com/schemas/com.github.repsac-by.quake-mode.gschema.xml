@@ -28,7 +28,7 @@
 	</key>
 
 	<key name="quake-mode-animation-time" type="d">
-		<range min="0.1" max="2"/>
+		<range min="0.0" max="2"/>
 		<default>0.25</default>
 	</key>
 
