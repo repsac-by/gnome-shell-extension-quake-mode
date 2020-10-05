@@ -157,6 +157,7 @@ var QuakeModeApp = class {
 	first_place() {
 		const { win, actor } = this;
 
+		actor.set_clip(0,0,actor.height,0);
 		win.stick();
 
 		on(global.window_manager, 'map', (sig, wm, metaWindowActor) => {
@@ -169,6 +170,7 @@ var QuakeModeApp = class {
 			once(win, 'size-changed')
 				.then( () => {
 					this.state = state.RUNNING;
+					actor.remove_clip();
 					this.show();
 				} );
 
@@ -189,15 +191,14 @@ var QuakeModeApp = class {
 
 		actor.get_parent().set_child_above_sibling(actor, null);
 		actor.translation_y = - actor.height,
-		actor.show();
+		Main.wm.skipNextEffect(actor);
+		Main.activateWindow(actor.meta_window);
 
 		actor.ease({
 			translation_y: 0,
 			duration: this.ainmation_time,
 			mode: Clutter.AnimationMode.EASE_OUT_QUART,
 			onComplete: () => {
-				Main.wm.skipNextEffect(actor);
-				Main.activateWindow(actor.meta_window);
 				this.isTransition = false;
 				if ( focusout )
 					once(global.display, 'notify::focus-window')
