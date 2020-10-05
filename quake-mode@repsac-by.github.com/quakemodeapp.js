@@ -157,7 +157,7 @@ var QuakeModeApp = class {
 	first_place() {
 		const { win, actor } = this;
 
-		actor.set_clip(0,0,actor.height,0);
+		actor.set_clip(0, 0, actor.width, 0);
 		win.stick();
 
 		on(global.window_manager, 'map', (sig, wm, metaWindowActor) => {
