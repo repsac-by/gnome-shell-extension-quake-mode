@@ -2,12 +2,9 @@
 
 /* exported QuakeModeApp, state */
 
-const Gdk = imports.gi.Gdk;
-const GLib = imports.gi.GLib;
-const Shell = imports.gi.Shell;
+const { Clutter, Gdk, GLib, Shell } = imports.gi;
 
-const Main    = imports.ui.main;
-const Clutter = imports.gi.Clutter;
+const Main = imports.ui.main;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { getSettings, on, once } = Me.imports.util;

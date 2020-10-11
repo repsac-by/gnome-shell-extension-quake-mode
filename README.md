@@ -5,11 +5,11 @@
 ```bash
 git clone https://github.com/repsac-by/gnome-shell-extension-quake-mode.git
 
-cp -rt ~/.local/share/gnome-shell/extensions gnome-shell-extension-quake-mode/quake-mode@repsac-by.github.com
+cd gnome-shell-extension-quake-mode
 
-gnome-shell-extension-prefs quake-mode@repsac-by.github.com
+gnome-extensions pack quake-mode@repsac-by.github.com --extra-source={quakemodeapp,util}.js
 
-gnome-shell-extension-tool -e quake-mode@repsac-by.github.com
+gnome-extensions install quake-mode@repsac-by.github.com.shell-extension.zip
 ```
 
 ## Know issues
