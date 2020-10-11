@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-23 09:44+0300\n"
+"POT-Creation-Date: 2020-10-11 09:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,42 +21,46 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: prefs.js:52
+#: prefs.js:50
+msgid "Minimize on focus out"
+msgstr ""
+
+#: prefs.js:60
 msgid "Width - %"
 msgstr ""
 
-#: prefs.js:62
+#: prefs.js:70
 msgid "Height - %"
 msgstr ""
 
-#: prefs.js:72
+#: prefs.js:80
 msgid "Monitor"
 msgstr ""
 
-#: prefs.js:82
+#: prefs.js:90
 msgid "Animation time - s"
 msgstr ""
 
-#: prefs.js:101 prefs.js:207
+#: prefs.js:109 prefs.js:218
 msgid "Application"
 msgstr ""
 
-#: prefs.js:165
+#: prefs.js:176
 msgid "Toggle"
 msgstr ""
 
-#: prefs.js:171
+#: prefs.js:182
 msgid "Action"
 msgstr ""
 
-#: prefs.js:174
+#: prefs.js:185
 msgid "Shortcut Key"
 msgstr ""
 
-#: prefs.js:206
+#: prefs.js:217
 msgid "Main"
 msgstr ""
 
-#: prefs.js:208
+#: prefs.js:219
 msgid "Accelerators"
 msgstr ""
