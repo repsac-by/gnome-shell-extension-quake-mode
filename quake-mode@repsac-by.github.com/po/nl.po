@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-11 09:24+0300\n"
+"PO-Revision-Date: 2020-10-26 13:51+0100\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl\n"
+
+#: prefs.js:42
+msgid "Icon"
+msgstr "Pictogram"
+
+#: prefs.js:50
+msgid "Minimize on focus out"
+msgstr "Minimaliseren na verlies van focus"
+
+#: prefs.js:60
+msgid "Width - %"
+msgstr "Breedte (in %)"
+
+#: prefs.js:70
+msgid "Height - %"
+msgstr "Hoogte (in %)"
+
+#: prefs.js:80
+msgid "Monitor"
+msgstr "Beeldscherm"
+
+#: prefs.js:90
+msgid "Animation time - s"
+msgstr "Animatieduur (in sec.)"
+
+#: prefs.js:109 prefs.js:218
+msgid "Application"
+msgstr "Toepassing"
+
+#: prefs.js:176
+msgid "Toggle"
+msgstr "Tonen/Verbergen"
+
+#: prefs.js:182
+msgid "Action"
+msgstr "Actie"
+
+#: prefs.js:185
+msgid "Shortcut Key"
+msgstr "Sneltoets"
+
+#: prefs.js:217
+msgid "Main"
+msgstr "Algemeen"
+
+#: prefs.js:219
+msgid "Accelerators"
+msgstr "Sneltoetsen"
