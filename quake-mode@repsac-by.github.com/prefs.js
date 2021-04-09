@@ -26,7 +26,10 @@ const QuakeModePrefsWidget
 = GObject.registerClass(class QuakeModePrefsWidget extends Gtk.Grid {
 	_init(params) {
 		super._init(params);
-		this.margin = 30;
+		this.set_margin_top(30);
+		this.set_margin_bottom(30);
+		this.set_margin_start(30);
+		this.set_margin_end(30);
 		this.set_row_spacing(20);
 		this.set_column_spacing(30);
 		this.set_orientation(Gtk.Orientation.VERTICAL);
@@ -72,7 +75,7 @@ const QuakeModePrefsWidget
 
 		// Height
 		const spinMonitor = new Gtk.SpinButton();
-		spinMonitor.set_range(0, Gdk.Screen.get_default().get_n_monitors() - 1);
+		spinMonitor.set_range(0, Gdk.Display.get_default().get_monitors().get_n_items() - 1);
 		spinMonitor.set_increments(1, 2);
 
 		settings.bind('quake-mode-monitor', spinMonitor, 'value', Gio.SettingsBindFlags.DEFAULT);
@@ -96,7 +99,10 @@ const ApplicationWidget
 = GObject.registerClass(class ApplicationWidget extends Gtk.Grid {
 	_init(params) {
 		super._init(params);
-		this.margin = 30;
+		this.set_margin_top(30);
+		this.set_margin_bottom(30);
+		this.set_margin_start(30);
+		this.set_margin_end(30);
 		this.set_row_spacing(20);
 		this.set_column_spacing(30);
 		this.set_orientation(Gtk.Orientation.VERTICAL);
@@ -126,25 +132,21 @@ const ApplicationWidget
 			entryApp.set_text(row.__app.id);
 		});
 
-		const image_size = Gtk.IconSize.lookup(Gtk.IconSize.DIALOG)[2];
-
 		Gio.app_info_get_all()
 			.filter(a => a.should_show())
-			.forEach(a => listBox.add(buildRow(a, image_size)));
+			.forEach(a => listBox.append(buildRow(a)));
 
-		const scrolledWindow = new Gtk.ScrolledWindow({ expand: true });
-		scrolledWindow.add(listBox);
+		const scrolledWindow = new Gtk.ScrolledWindow({ vexpand: true });
+		scrolledWindow.set_child(listBox);
 
 		this.attach(scrolledWindow, 0, 2, 2, 1);
 
-		function buildRow(app, image_size) {
+		function buildRow(app) {
 			const name = app.get_display_name();
 			const icon = app.get_icon();
 			const image = icon
-				? Gtk.Image.new_from_gicon(icon, Gtk.IconSize.DIALOG)
-				: Gtk.Image.new_from_icon_name('application-x-executable', Gtk.IconSize.DIALOG);
-
-			image.set_pixel_size(image_size);
+				? Gtk.Image.new_from_gicon(icon)
+				: Gtk.Image.new_from_icon_name('application-x-executable');
 
 			const label = new Gtk.Label({ label: name });
 			const grid  = new Gtk.Grid({ hexpand: true, column_spacing: 5 });
@@ -153,7 +155,7 @@ const ApplicationWidget
 			grid.attach(label, 1, 0, 1, 1);
 
 			const row = new Gtk.ListBoxRow();
-			row.add(grid);
+			row.set_child(grid);
 
 			row.__app = {
 				id: app.get_id(),
@@ -193,7 +195,8 @@ const AcceleratorsWidget
 		});
 
 		accels.set_cell_data_func(accelRender, (column, cell, model, iter) => {
-			[ cell.accel_key, cell.accel_mods ] = Gtk.accelerator_parse(model.get_value(iter, 1));
+			let ok = false;
+			[ ok, cell.accel_key, cell.accel_mods ] = Gtk.accelerator_parse(model.get_value(iter, 1));
 		});
 
 		accelRender.connect('accel-edited', (self, path, accel_key, accel_mod) => {
@@ -222,7 +225,7 @@ const Notebook
 
 function buildPrefsWidget() {
 	const widget = new Notebook();
-	widget.show_all();
+	widget.show();
 
 	return widget;
 }
