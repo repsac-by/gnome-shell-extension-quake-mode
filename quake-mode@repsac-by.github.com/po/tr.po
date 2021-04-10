@@ -1,0 +1,65 @@
+# Turkish translate for Quake-Mode extension.
+# Quake-Mode eklentisi için Türkçe çeviri.
+# Copyright (C) 2021 COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# <mtaha1905@yandex.com>, 2021.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-4-10 11:35+0300\n"
+"Last-Translator: Muhammed Taha <mtaha1905@yandex.com>\n"
+"Language: Turkish \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: prefs.js:42
+msgid "Icon"
+msgstr "İkon"
+
+#: prefs.js:50
+msgid "Minimize on focus out"
+msgstr "Başka bir yere odaklanıldığında terminali küçült"
+
+#: prefs.js:60
+msgid "Width - %"
+msgstr "Genişlik (yüzde - %)"
+
+#: prefs.js:70
+msgid "Height - %"
+msgstr "Yükseklik (yüzde - %)"
+
+#: prefs.js:80
+msgid "Monitor"
+msgstr "Monitör"
+
+#: prefs.js:90
+msgid "Animation time - s"
+msgstr "Animasyon süresi (saniye - s)"
+
+#: prefs.js:109 prefs.js:218
+msgid "Application"
+msgstr "Uygulama"
+
+#: prefs.js:176
+msgid "Toggle"
+msgstr "Kapat/Aç"
+
+#: prefs.js:182
+msgid "Action"
+msgstr "Eylem"
+
+#: prefs.js:185
+msgid "Shortcut Key"
+msgstr "Kısayol Tuşu"
+
+#: prefs.js:217
+msgid "Main"
+msgstr "Ana"
+
+#: prefs.js:219
+msgid "Accelerators"
+msgstr "Kısayollar"
