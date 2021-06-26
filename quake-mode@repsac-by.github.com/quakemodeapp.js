@@ -202,6 +202,8 @@ var QuakeModeApp = class {
 						.then(() => this.hide());
 			},
 		});
+		
+		this.place();
 	}
 
 	hide() {
