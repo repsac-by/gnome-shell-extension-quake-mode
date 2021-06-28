@@ -13,6 +13,8 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const { getSettings } = Me.imports.util;
 const  quakemodeapp = Me.imports.quakemodeapp;
 
+const isOverviewWindow = imports.ui.workspace.Workspace.prototype._isOverviewWindow;
+
 let button, settings, quakeModeApp;
 
 function init() {
@@ -33,6 +35,11 @@ function enable() {
 		Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW | Shell.ActionMode.POPUP,
 		toggle
 	);
+
+	imports.ui.workspace.Workspace.prototype._isOverviewWindow = (win) => {
+		const show = isOverviewWindow(win);
+		return show && !(win.get_meta_window().get_gtk_application_id()+'.desktop'==app_id() && win.get_meta_window().minimized);
+	};
 }
 
 function disable() {
@@ -44,6 +51,8 @@ function disable() {
 		settings.run_dispose();
 		settings = null;
 	}
+
+	imports.ui.workspace.Workspace.prototype._isOverviewWindow = isOverviewWindow;
 }
 
 function app_id() {
