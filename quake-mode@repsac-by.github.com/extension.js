@@ -89,6 +89,7 @@ function setTray(show) {
 	}) );
 
 	button.connect('button-press-event', toggle);
+	button.connect('touch-event', toggle);
 
 	Main.panel._rightBox.insert_child_at_index(button, 0);
 }
