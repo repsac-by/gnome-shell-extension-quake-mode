@@ -9,57 +9,57 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-4-10 11:35+0300\n"
+"POT-Creation-Date: 2021-11-10 19:09+0300\n"
 "Last-Translator: Muhammed Taha <mtaha1905@yandex.com>\n"
 "Language: Turkish \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: prefs.js:42
+#: prefs.js:45
 msgid "Icon"
-msgstr "İkon"
+msgstr "kon"
 
-#: prefs.js:50
+#: prefs.js:53
 msgid "Minimize on focus out"
-msgstr "Başka bir yere odaklanıldığında terminali küçült"
+msgstr "Baka bir yere odaklanldnda terminali klt"
 
-#: prefs.js:60
+#: prefs.js:63
 msgid "Width - %"
-msgstr "Genişlik (yüzde - %)"
+msgstr "Genilik (yzde - %)"
 
-#: prefs.js:70
+#: prefs.js:73
 msgid "Height - %"
-msgstr "Yükseklik (yüzde - %)"
+msgstr "Ykseklik (yzde - %)"
 
-#: prefs.js:80
+#: prefs.js:83
 msgid "Monitor"
-msgstr "Monitör"
+msgstr "Monitr"
 
-#: prefs.js:90
+#: prefs.js:93
 msgid "Animation time - s"
-msgstr "Animasyon süresi (saniye - s)"
+msgstr "Animasyon sresi (saniye - s)"
 
-#: prefs.js:109 prefs.js:218
+#: prefs.js:115 prefs.js:221
 msgid "Application"
 msgstr "Uygulama"
 
-#: prefs.js:176
+#: prefs.js:178
 msgid "Toggle"
-msgstr "Kapat/Aç"
+msgstr "Kapat/A"
 
-#: prefs.js:182
+#: prefs.js:184
 msgid "Action"
 msgstr "Eylem"
 
-#: prefs.js:185
+#: prefs.js:187
 msgid "Shortcut Key"
-msgstr "Kısayol Tuşu"
+msgstr "Ksayol Tuu"
 
-#: prefs.js:217
+#: prefs.js:220
 msgid "Main"
 msgstr "Ana"
 
-#: prefs.js:219
+#: prefs.js:222
 msgid "Accelerators"
 msgstr "Kısayollar"

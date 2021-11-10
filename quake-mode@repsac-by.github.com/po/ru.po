@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-11 09:22+0300\n"
+"POT-Creation-Date: 2021-11-10 19:09+0300\n"
 "PO-Revision-Date: 2018-03-22 23:24+0300\n"
 "Last-Translator:  <repsac@surefire>\n"
 "Language-Team: Russian\n"
@@ -19,51 +19,51 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: prefs.js:42
+#: prefs.js:45
 msgid "Icon"
 msgstr "Иконка"
 
-#: prefs.js:50
+#: prefs.js:53
 msgid "Minimize on focus out"
 msgstr "Сворачивать при потере фокуса"
 
-#: prefs.js:60
+#: prefs.js:63
 msgid "Width - %"
 msgstr "Ширина в %"
 
-#: prefs.js:70
+#: prefs.js:73
 msgid "Height - %"
 msgstr "Высота в %"
 
-#: prefs.js:80
+#: prefs.js:83
 msgid "Monitor"
 msgstr "Монитор"
 
-#: prefs.js:90
+#: prefs.js:93
 msgid "Animation time - s"
 msgstr "Время анимации в с."
 
-#: prefs.js:109 prefs.js:218
+#: prefs.js:115 prefs.js:221
 msgid "Application"
 msgstr "Приложение"
 
-#: prefs.js:176
+#: prefs.js:178
 msgid "Toggle"
 msgstr "Рычаг"
 
-#: prefs.js:182
+#: prefs.js:184
 #, fuzzy
 msgid "Action"
 msgstr "Действие"
 
-#: prefs.js:185
+#: prefs.js:187
 msgid "Shortcut Key"
 msgstr "Комбинация клавиш"
 
-#: prefs.js:217
+#: prefs.js:220
 msgid "Main"
 msgstr "Главная"
 
-#: prefs.js:219
+#: prefs.js:222
 msgid "Accelerators"
 msgstr "Ускорители"
