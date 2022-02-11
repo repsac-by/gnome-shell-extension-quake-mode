@@ -4,7 +4,6 @@
 /* global Intl */
 
 const GObject = imports.gi.GObject;
-const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 
@@ -13,7 +12,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.uuid);
 const _ = Gettext.gettext;
 
-const { getSettings, initTranslations } = Me.imports.util;
+const { getSettings, initTranslations, getMonitors } = Me.imports.util;
 
 let settings;
 
@@ -73,15 +72,49 @@ const QuakeModePrefsWidget
 		this.attach(label(_('Height - %')), 0, ++r, 1, 1);
 		this.attach(spinHeight, 1, r, 1, 1);
 
-		// Height
-		const spinMonitor = new Gtk.SpinButton();
-		spinMonitor.set_range(0, Gdk.Display.get_default().get_monitors().get_n_items() - 1);
-		spinMonitor.set_increments(1, 2);
+		// Monitor Number
+		const Columns = {LABEL: 0, VALUE: 1}
+		const monitorModel = new Gtk.ListStore();
+		monitorModel.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT])
+		const selectMonitor = new Gtk.ComboBox({model: monitorModel});
+		const selectMonitorRenderer = new Gtk.CellRendererText();
+		selectMonitor.pack_start(selectMonitorRenderer, true);
+		selectMonitor.add_attribute(selectMonitorRenderer, 'text', 0);
 
-		settings.bind('quake-mode-monitor', spinMonitor, 'value', Gio.SettingsBindFlags.DEFAULT);
+		const monitors = getMonitors()
+		let monitorCurrentlySelected;
+
+		for(const [idx, monitor] of monitors.entries()) {
+			const iter = monitorModel.append();
+
+			monitorModel.set(
+				iter,
+				[Columns.LABEL, Columns.VALUE],
+				[`#${idx}: ${monitor.manufacturer} ${monitor.model}`, idx]
+			)
+
+			if(idx === settings.get_int('quake-mode-monitor')) {
+				monitorCurrentlySelected = iter;
+			}
+		}
+
+		if (monitorCurrentlySelected !== undefined) {
+			selectMonitor.set_active_iter(monitorCurrentlySelected)
+		}
+
+		selectMonitor.connect('changed', () => {
+			const [success, iter] = selectMonitor.get_active_iter();
+
+			if(!success) {
+				return;
+			}
+
+			const value = monitorModel.get_value(iter, Columns.VALUE)
+			settings.set_int('quake-mode-monitor', value)
+		});
 
 		this.attach(label(_('Monitor')), 0, ++r, 1, 1);
-		this.attach(spinMonitor, 1, r, 1, 1);
+		this.attach(selectMonitor, 1, r, 1, 1);
 
 		// Time
 		const spinTime = new Gtk.SpinButton({ digits: 2 });
