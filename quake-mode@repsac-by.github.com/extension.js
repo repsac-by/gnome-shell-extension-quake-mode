@@ -86,6 +86,10 @@ class Indicator {
 		this.panelButton.connect('touch-event', this.onClick.bind(this))
 	}
 
+	destroy() {
+		this.panelButton.destroy();
+	}
+
 	getSettingsItem() {
 		const settingsItem = new PopupMenu.PopupMenuItem("Settings")
 		settingsItem.connect('activate', () => {openPrefs();});
@@ -142,5 +146,5 @@ function setTray(show) {
 		return;
 
 	indicator = new Indicator();
-	Main.panel.addToStatusArea(IndicatorName, this.indicator.panelButton)
+	Main.panel.addToStatusArea(IndicatorName, indicator.panelButton)
 }
