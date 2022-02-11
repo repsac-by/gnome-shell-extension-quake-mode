@@ -5,15 +5,21 @@
 const Meta    = imports.gi.Meta;
 const Shell   = imports.gi.Shell;
 const St      = imports.gi.St;
+const PanelMenu = imports.ui.panelMenu;
+const PopupMenu = imports.ui.popupMenu;
+const Clutter = imports.gi.Clutter;
 
 const Main    = imports.ui.main;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
+const {getCurrentExtension, openPrefs} = imports.misc.extensionUtils
+const Me = getCurrentExtension();
 
-const { getSettings } = Me.imports.util;
+const { getSettings, getMonitors } = Me.imports.util;
 const  quakemodeapp = Me.imports.quakemodeapp;
 
-let button, settings, quakeModeApp;
+let indicator, settings, quakeModeApp;
+
+const IndicatorName = 'Quake-mode'
 
 function init() {
 }
@@ -63,33 +69,78 @@ async function toggle() {
 	}
 }
 
-function setTray(show) {
-	if ( !show ) {
-		if ( button )
-			Main.panel._rightBox.remove_child(button);
+class Indicator {
+	constructor() {
+		settings = getSettings();
 
-		return button = null;
+		this.panelButton = new PanelMenu.Button(null, IndicatorName)
+		const icon = new St.Icon({
+			icon_name:   'utilities-terminal-symbolic',
+			style_class: 'system-status-icon'
+		})
+		this.panelButton.add_actor(icon)
+
+		this.panelButton.menu.addMenuItem(this.getSettingsItem())
+
+		this.panelButton.connect('button-press-event', this.onClick.bind(this))
+		this.panelButton.connect('touch-event', this.onClick.bind(this))
 	}
 
-	if ( button )
+	getSettingsItem() {
+		const settingsItem = new PopupMenu.PopupMenuItem("Settings")
+		settingsItem.connect('activate', () => {openPrefs();});
+
+		return settingsItem
+	}
+
+	onClick(obj, evt) {
+		if(evt.get_button() === Clutter.BUTTON_PRIMARY) {
+			this.panelButton.menu.close();
+			toggle();
+			return
+		} else {
+			this.showMonitorMenu();
+			return
+		}
+	}
+
+	showMonitorMenu() {
+		const menu = this.panelButton.menu
+		menu.removeAll();
+
+		const monitors = getMonitors()
+
+		for(const [idx, monitor] of monitors.entries()) {
+			const menuItem = new PopupMenu.PopupMenuItem(
+				`#${idx}: ${monitor.manufacturer} ${monitor.model}`
+			);
+			if(idx === settings.get_int('quake-mode-monitor')){
+				menuItem.setOrnament(PopupMenu.Ornament.CHECK);
+			} else {
+				menuItem.setOrnament(PopupMenu.Ornament.NONE);
+			}
+			menuItem.connect("activate", () => {
+				settings.set_int('quake-mode-monitor', idx);
+			});
+			menu.addMenuItem(menuItem);
+		}
+        menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+		this.panelButton.menu.addMenuItem(this.getSettingsItem())
+	}
+}
+
+function setTray(show) {
+	if ( !show ) {
+		if ( indicator ) {
+			indicator.destroy()
+			indicator = undefined
+		}
+		return
+	}
+
+	if ( indicator )
 		return;
 
-	button = new St.Bin({
-		style_class: 'panel-button',
-		reactive: true,
-		can_focus: true,
-		x_expand: true,
-		y_expand: true,
-		track_hover: true
-	});
-
-	button.set_child( new St.Icon({
-		icon_name:   'utilities-terminal-symbolic',
-		style_class: 'system-status-icon'
-	}) );
-
-	button.connect('button-press-event', toggle);
-	button.connect('touch-event', toggle);
-
-	Main.panel._rightBox.insert_child_at_index(button, 0);
+	indicator = new Indicator();
+	Main.panel.addToStatusArea(IndicatorName, this.indicator.panelButton)
 }

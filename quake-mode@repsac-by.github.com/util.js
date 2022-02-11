@@ -5,6 +5,7 @@ const Gettext = imports.gettext;
 const Config = imports.misc.config;
 
 const Gio = imports.gi.Gio;
+const Gdk = imports.gi.Gdk
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
@@ -66,4 +67,27 @@ function initTranslations(domain = Me.uuid) {
 		Gettext.bindtextdomain(domain, localeDir.get_path());
 	else
 		Gettext.bindtextdomain(domain, Config.LOCALEDIR);
+}
+
+function getMonitors() {
+	const monitors = []
+
+	const display = Gdk.Display.get_default()
+	if(display.get_monitors) { // GDK4.4+
+		const monitorsAvailable = display.get_monitors()
+		for(let idx = 0; idx < monitorsAvailable.get_n_items(); idx++) {
+			const monitor = monitorsAvailable.get_item(idx);
+
+			monitors.push(monitor)
+		}
+	} else if (display.get_n_monitors) { // GDK3.24j
+		for(let idx = 0; idx < display.get_n_monitors(); idx++) {
+			const monitor = display.get_monitor(idx);
+			monitors.push(monitor)
+		}
+	} else {
+		logError(`Could not get monitor list from Display of type ${display}`)
+	}
+
+	return monitors;
 }

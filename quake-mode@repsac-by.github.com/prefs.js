@@ -4,7 +4,6 @@
 /* global Intl */
 
 const GObject = imports.gi.GObject;
-const Gdk = imports.gi.Gdk;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 
@@ -13,7 +12,7 @@ const Me = imports.misc.extensionUtils.getCurrentExtension();
 const Gettext = imports.gettext.domain(Me.uuid);
 const _ = Gettext.gettext;
 
-const { getSettings, initTranslations } = Me.imports.util;
+const { getSettings, initTranslations, getMonitors } = Me.imports.util;
 
 let settings;
 
@@ -82,21 +81,23 @@ const QuakeModePrefsWidget
 		selectMonitor.pack_start(selectMonitorRenderer, true);
 		selectMonitor.add_attribute(selectMonitorRenderer, 'text', 0);
 
-		const monitorsAvailable = Gdk.Display.get_default().get_monitors()
+		const monitors = getMonitors()
 		let monitorCurrentlySelected;
-		for(let idx = 0; idx < monitorsAvailable.get_n_items(); idx++) {
-			const monitor = monitorsAvailable.get_item(idx);
+
+		for(const [idx, monitor] of monitors.entries()) {
 			const iter = monitorModel.append();
+
 			monitorModel.set(
 				iter,
 				[Columns.LABEL, Columns.VALUE],
-				[`#${idx}: ${monitor.model}`, idx]
+				[`#${idx}: ${monitor.manufacturer} ${monitor.model}`, idx]
 			)
 
 			if(idx === settings.get_int('quake-mode-monitor')) {
 				monitorCurrentlySelected = iter;
 			}
 		}
+
 		if (monitorCurrentlySelected !== undefined) {
 			selectMonitor.set_active_iter(monitorCurrentlySelected)
 		}
