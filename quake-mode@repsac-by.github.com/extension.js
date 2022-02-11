@@ -128,7 +128,9 @@ class Indicator {
 			});
 			menu.addMenuItem(menuItem);
 		}
-        menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+		if(monitors.length > 0) {
+			menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+		}
 		this.panelButton.menu.addMenuItem(this.getSettingsItem())
 	}
 }
