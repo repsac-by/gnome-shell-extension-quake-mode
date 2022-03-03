@@ -17,7 +17,8 @@ const Me = getCurrentExtension();
 const { getSettings, getMonitors } = Me.imports.util;
 const  quakemodeapp = Me.imports.quakemodeapp;
 
-let indicator, settings, quakeModeApp;
+let indicator, settings;
+let quakeModeApps = new Map();
 
 const IndicatorName = 'Quake-mode'
 
@@ -58,11 +59,12 @@ function app_id() {
 
 async function toggle() {
 	try {
+		let currentWorkspace = global.workspace_manager.get_active_workspace();
 
-		if ( !quakeModeApp || quakeModeApp.state === quakemodeapp.state.DEAD)
-			quakeModeApp = new quakemodeapp.QuakeModeApp(app_id());
+		if ( !quakeModeApps.has(currentWorkspace) || quakeModeApps.get(currentWorkspace).state === quakemodeapp.state.DEAD)
+			quakeModeApps.set(currentWorkspace, new quakemodeapp.QuakeModeApp(app_id()));
 
-		await quakeModeApp.toggle();
+		await quakeModeApps.get(currentWorkspace).toggle();
 
 	} catch ( e ) {
 		Main.notify('Quake-mode', e.message);
