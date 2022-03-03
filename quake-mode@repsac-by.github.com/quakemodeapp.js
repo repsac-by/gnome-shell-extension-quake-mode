@@ -5,6 +5,8 @@
 const { Clutter, GLib, Shell } = imports.gi;
 const isOverviewWindow = imports.ui.workspace.Workspace.prototype._isOverviewWindow;
 const { Workspace } = imports.ui.workspace;
+const { altTab } = imports.ui;
+const { getWindows } = altTab;
 
 const Main = imports.ui.main;
 
@@ -150,6 +152,11 @@ var QuakeModeApp = class {
 					const show = isOverviewWindow(win);
 					return show && win !== this.win;
 				};
+
+				altTab.getWindows = (workspace) => {
+					const windows = getWindows(workspace);
+					return windows.filter((w, i, a) => w !== this.win);
+				  };
 
 				once(this.win, 'unmanaged', () => this.destroy());
 
