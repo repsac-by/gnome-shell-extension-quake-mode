@@ -183,6 +183,7 @@ var QuakeModeApp = class {
 		actor.translation_y = - actor.height,
 		Main.wm.skipNextEffect(actor);
 		Main.activateWindow(actor.meta_window);
+		actor.meta_window.unmaximize(3);
 
 		actor.ease({
 			translation_y: 0,
