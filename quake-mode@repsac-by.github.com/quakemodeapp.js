@@ -168,7 +168,6 @@ var QuakeModeApp = class {
 		const { win, actor } = this;
 
 		actor.set_clip(0, 0, actor.width, 0);
-		win.stick();
 
 		on(global.window_manager, 'map', (sig, wm, metaWindowActor) => {
 			if ( metaWindowActor !== actor )

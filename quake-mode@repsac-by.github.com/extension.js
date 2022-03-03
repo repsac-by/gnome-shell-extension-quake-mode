@@ -15,11 +15,11 @@ const { QuakeModeApp, state } = Me.imports.quakemodeapp;
 const { Indicator } = Me.imports.indicator;
 
 let indicator, settings;
+let quakeModeApps = new Map();
 
 const IndicatorName = 'Quake-mode';
 
 const APPS_COUNT = 5;
-const apps = new Map();
 
 function init() {
 }
@@ -72,8 +72,10 @@ function disable() {
 	}
 
 	if (main.sessionMode.currentMode !== 'unlock-dialog' ) {
-		apps.forEach(app  => app && app.destroy());
-		apps.clear();
+		quakeModeApps.forEach(workspace => {
+			workspace.forEach(app  => app && app.destroy());
+			workspace.clear();
+		});
 	}
 
 	if (settings) {
@@ -89,13 +91,17 @@ function app_id (i) {
 }
 async function toggle(i) {
 	try {
-		let app = apps.get(i);
-		if ( !app || app.state === state.DEAD) {
-			app = new QuakeModeApp(app_id(i));
-			apps.set(i, app);
+		let currentWorkspace = global.workspace_manager.get_active_workspace();
+
+		if ( !quakeModeApps.has(currentWorkspace) || !quakeModeApps.get(currentWorkspace).get(i) || quakeModeApps.get(currentWorkspace).get(i).state === Me.imports.quakemodeapp.state.DEAD) {
+			let app = new QuakeModeApp(app_id(i));
+			if(!quakeModeApps.has(currentWorkspace))
+				quakeModeApps.set(currentWorkspace, new Map());
+			quakeModeApps.get(currentWorkspace).set(i, app);
 		}
 
-		await app.toggle();
+		await quakeModeApps.get(currentWorkspace).get(i).toggle();
+
 	} catch ( e ) {
 		main.notify('Quake-mode', e.message);
 	}
