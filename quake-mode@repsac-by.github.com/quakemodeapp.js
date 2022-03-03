@@ -3,6 +3,8 @@
 /* exported QuakeModeApp, state */
 
 const { Clutter, GLib, Shell } = imports.gi;
+const isOverviewWindow = imports.ui.workspace.Workspace.prototype._isOverviewWindow;
+const { Workspace } = imports.ui.workspace;
 
 const Main = imports.ui.main;
 
@@ -143,6 +145,11 @@ var QuakeModeApp = class {
 					return reject(`app '${this.app.id}' is launched but no windows`);
 
 				this.win = app.get_windows()[0];
+
+				Workspace.prototype._isOverviewWindow = (win) => {
+					const show = isOverviewWindow(win);
+					return show && win !== this.win;
+				};
 
 				once(this.win, 'unmanaged', () => this.destroy());
 
