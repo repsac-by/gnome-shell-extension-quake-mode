@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-10 19:09+0300\n"
+"PO-Revision-Date: 2022-04-09 10:28-0300\n"
+"Last-Translator: Antonio Fernandes Coelho Neto <afernandescneto@gmail.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#: prefs.js:45
+msgid "Icon"
+msgstr "Ícone"
+
+#: prefs.js:53
+msgid "Minimize on focus out"
+msgstr "Minimize ao perder o foco"
+
+#: prefs.js:63
+msgid "Width - %"
+msgstr "Largura - %"
+
+#: prefs.js:73
+msgid "Height - %"
+msgstr "Altura - %"
+
+#: prefs.js:83
+msgid "Monitor"
+msgstr "Monitor"
+
+#: prefs.js:93
+msgid "Animation time - s"
+msgstr "Duração da animação - s"
+
+#: prefs.js:115 prefs.js:221
+msgid "Application"
+msgstr "Aplicativo"
+
+#: prefs.js:178
+msgid "Toggle"
+msgstr "Alternar"
+
+#: prefs.js:184
+msgid "Action"
+msgstr "Ação"
+
+#: prefs.js:187
+msgid "Shortcut Key"
+msgstr "Tecla de atalho"
+
+#: prefs.js:220
+msgid "Main"
+msgstr "Principal"
+
+#: prefs.js:222
+msgid "Accelerators"
+msgstr "Aceleradores"
