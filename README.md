@@ -7,7 +7,7 @@ git clone https://github.com/repsac-by/gnome-shell-extension-quake-mode.git
 
 cd gnome-shell-extension-quake-mode
 
-gnome-extensions pack quake-mode@repsac-by.github.com --extra-source={quakemodeapp,util}.js
+gnome-extensions pack quake-mode@repsac-by.github.com --extra-source={quakemodeapp,indicator,util}.js
 
 gnome-extensions install quake-mode@repsac-by.github.com.shell-extension.zip
 ```
