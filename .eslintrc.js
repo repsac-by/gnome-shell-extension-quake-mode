@@ -12,6 +12,7 @@ module.exports = {
 	globals: {
 		global: "readonly",
 		imports: "readonly",
+		log: "readonly",
 	},
 	extends: 'eslint:recommended',
 	rules: {

@@ -11,7 +11,7 @@ const Clutter = imports.gi.Clutter;
 
 const Main    = imports.ui.main;
 
-const {getCurrentExtension, openPrefs} = imports.misc.extensionUtils
+const {getCurrentExtension, openPrefs} = imports.misc.extensionUtils;
 const Me = getCurrentExtension();
 
 const { getSettings, getMonitors } = Me.imports.util;
@@ -19,7 +19,7 @@ const  quakemodeapp = Me.imports.quakemodeapp;
 
 let indicator, settings, quakeModeApp;
 
-const IndicatorName = 'Quake-mode'
+const IndicatorName = 'Quake-mode';
 
 function init() {
 }
@@ -73,17 +73,17 @@ class Indicator {
 	constructor() {
 		settings = getSettings();
 
-		this.panelButton = new PanelMenu.Button(null, IndicatorName)
+		this.panelButton = new PanelMenu.Button(null, IndicatorName);
 		const icon = new St.Icon({
 			icon_name:   'utilities-terminal-symbolic',
 			style_class: 'system-status-icon'
-		})
-		this.panelButton.add_actor(icon)
+		});
+		this.panelButton.add_actor(icon);
 
-		this.panelButton.menu.addMenuItem(this.getSettingsItem())
+		this.panelButton.menu.addMenuItem(this.getSettingsItem());
 
-		this.panelButton.connect('button-press-event', this.onClick.bind(this))
-		this.panelButton.connect('touch-event', this.onClick.bind(this))
+		this.panelButton.connect('button-press-event', this.onClick.bind(this));
+		this.panelButton.connect('touch-event', this.onClick.bind(this));
 	}
 
 	destroy() {
@@ -91,34 +91,33 @@ class Indicator {
 	}
 
 	getSettingsItem() {
-		const settingsItem = new PopupMenu.PopupMenuItem("Settings")
-		settingsItem.connect('activate', () => {openPrefs();});
+		const settingsItem = new PopupMenu.PopupMenuItem("Settings");
+		settingsItem.connect('activate', () => { openPrefs(); });
 
-		return settingsItem
+		return settingsItem;
 	}
 
 	onClick(obj, evt) {
-		if(evt.get_button() === Clutter.BUTTON_PRIMARY) {
+		if (evt.get_button() === Clutter.BUTTON_PRIMARY) {
 			this.panelButton.menu.close();
 			toggle();
-			return
-		} else {
-			this.showMonitorMenu();
-			return
+			return;
 		}
+
+		this.showMonitorMenu();
 	}
 
 	showMonitorMenu() {
-		const menu = this.panelButton.menu
+		const menu = this.panelButton.menu;
 		menu.removeAll();
 
-		const monitors = getMonitors()
+		const monitors = getMonitors();
 
-		for(const [idx, monitor] of monitors.entries()) {
+		for (const [idx, monitor] of monitors.entries()) {
 			const menuItem = new PopupMenu.PopupMenuItem(
 				`#${idx}: ${monitor.manufacturer} ${monitor.model}`
 			);
-			if(idx === settings.get_int('quake-mode-monitor')){
+			if (idx === settings.get_int('quake-mode-monitor')){
 				menuItem.setOrnament(PopupMenu.Ornament.CHECK);
 			} else {
 				menuItem.setOrnament(PopupMenu.Ornament.NONE);
@@ -128,25 +127,25 @@ class Indicator {
 			});
 			menu.addMenuItem(menuItem);
 		}
-		if(monitors.length > 0) {
+		if (monitors.length > 0) {
 			menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 		}
-		this.panelButton.menu.addMenuItem(this.getSettingsItem())
+		this.panelButton.menu.addMenuItem(this.getSettingsItem());
 	}
 }
 
 function setTray(show) {
 	if ( !show ) {
 		if ( indicator ) {
-			indicator.destroy()
-			indicator = undefined
+			indicator.destroy();
+			indicator = undefined;
 		}
-		return
+		return;
 	}
 
 	if ( indicator )
 		return;
 
 	indicator = new Indicator();
-	Main.panel.addToStatusArea(IndicatorName, indicator.panelButton)
+	Main.panel.addToStatusArea(IndicatorName, indicator.panelButton);
 }

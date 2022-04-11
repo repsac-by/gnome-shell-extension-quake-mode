@@ -81,44 +81,44 @@ const QuakeModePrefsWidget
 		this.attach(spinHeight, 1, r, 1, 1);
 
 		// Monitor Number
-		const Columns = {LABEL: 0, VALUE: 1}
+		const Columns = {LABEL: 0, VALUE: 1};
 		const monitorModel = new Gtk.ListStore();
-		monitorModel.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT])
+		monitorModel.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT]);
 		const selectMonitor = new Gtk.ComboBox({model: monitorModel});
 		const selectMonitorRenderer = new Gtk.CellRendererText();
 		selectMonitor.pack_start(selectMonitorRenderer, true);
 		selectMonitor.add_attribute(selectMonitorRenderer, 'text', 0);
 
-		const monitors = getMonitors()
+		const monitors = getMonitors();
 		let monitorCurrentlySelected;
 
-		for(const [idx, monitor] of monitors.entries()) {
+		for (const [idx, monitor] of monitors.entries()) {
 			const iter = monitorModel.append();
 
 			monitorModel.set(
 				iter,
 				[Columns.LABEL, Columns.VALUE],
 				[`#${idx}: ${monitor.manufacturer} ${monitor.model}`, idx]
-			)
+			);
 
-			if(idx === settings.get_int('quake-mode-monitor')) {
+			if (idx === settings.get_int('quake-mode-monitor')) {
 				monitorCurrentlySelected = iter;
 			}
 		}
 
 		if (monitorCurrentlySelected !== undefined) {
-			selectMonitor.set_active_iter(monitorCurrentlySelected)
+			selectMonitor.set_active_iter(monitorCurrentlySelected);
 		}
 
 		selectMonitor.connect('changed', () => {
 			const [success, iter] = selectMonitor.get_active_iter();
 
-			if(!success) {
+			if (!success) {
 				return;
 			}
 
-			const value = monitorModel.get_value(iter, Columns.VALUE)
-			settings.set_int('quake-mode-monitor', value)
+			const value = monitorModel.get_value(iter, Columns.VALUE);
+			settings.set_int('quake-mode-monitor', value);
 		});
 
 		this.attach(label(_('Monitor')), 0, ++r, 1, 1);
