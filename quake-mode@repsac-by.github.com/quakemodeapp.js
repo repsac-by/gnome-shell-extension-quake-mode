@@ -3,6 +3,10 @@
 /* exported QuakeModeApp, state */
 
 const { Clutter, GLib, Shell } = imports.gi;
+const isOverviewWindow = imports.ui.workspace.Workspace.prototype._isOverviewWindow;
+const { Workspace } = imports.ui.workspace;
+const { altTab } = imports.ui;
+const { getWindows } = altTab;
 
 const Main = imports.ui.main;
 
@@ -30,12 +34,14 @@ var QuakeModeApp = class {
 		}
 
 		const place = () => this.place();
+		const setupOverview = () => this.setupOverview(this.hideFromOverview);
 
 		const settings = this.settings = getSettings();
 
 		settings.connect('changed::quake-mode-width',   place);
 		settings.connect('changed::quake-mode-height',  place);
 		settings.connect('changed::quake-mode-monitor', place);
+		settings.connect('changed::quake-mode-hide-from-overview', setupOverview);
 
 		this.state = state.READY;
 	}
@@ -82,6 +88,8 @@ var QuakeModeApp = class {
 	get focusout() { return this.settings.get_boolean('quake-mode-focusout'); }
 
 	get ainmation_time() { return this.settings.get_double('quake-mode-animation-time') * 1000; }
+
+	get hideFromOverview () { return this.settings.get_boolean('quake-mode-hide-from-overview'); }
 
 	get monitor() {
 		const { win, settings } = this;
@@ -144,7 +152,14 @@ var QuakeModeApp = class {
 
 				this.win = app.get_windows()[0];
 
-				once(this.win, 'unmanaged', () => this.destroy());
+				if (this.hideFromOverview)
+					this.setupOverview(true);
+
+				once(this.win, 'unmanaged', () => {
+					if (this.hideFromOverview)
+						this.setupOverview(false);
+					this.destroy();
+				});
 
 				resolve();
 			});
@@ -202,7 +217,7 @@ var QuakeModeApp = class {
 						.then(() => this.hide());
 			},
 		});
-		
+
 		this.place();
 	}
 
@@ -245,5 +260,22 @@ var QuakeModeApp = class {
 
 		win.move_to_monitor(monitor);
 		win.move_resize_frame(false, x, y, w, h);
+	}
+
+	setupOverview(hide) {
+		if (hide) {
+			Workspace.prototype._isOverviewWindow = window => {
+				const show = isOverviewWindow(window);
+				return show && window !== this.win;
+			};
+
+			altTab.getWindows = workspace => {
+				const windows = getWindows(workspace);
+				return windows.filter(window => window !== this.win);
+			};
+		} else {
+			Workspace.prototype._isOverviewWindow = isOverviewWindow;
+			altTab.getWindows = getWindows;
+		}
 	}
 };

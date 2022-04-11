@@ -40,6 +40,10 @@
 		<default>false</default>
 	</key>
 
+	<key name="quake-mode-hide-from-overview" type="b">
+		<default>false</default>
+	</key>
+
   </schema>
 
 </schemalist>
