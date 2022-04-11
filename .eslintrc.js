@@ -1,12 +1,17 @@
+'use strict';
+
+/* eslint-env node */
 module.exports = {
 	parserOptions: {
 		ecmaVersion: 2017,
 		sourceType: 'script',
 	},
-	plugins: ['gjs'],
 	env: {
 		'es6': true,
-		'gjs/shell-extension': true
+	},
+	globals: {
+		global: "readonly",
+		imports: "readonly",
 	},
 	extends: 'eslint:recommended',
 	rules: {
@@ -33,4 +38,4 @@ module.exports = {
 		'yield-star-spacing': [1, 'after'],
 		'no-mixed-spaces-and-tabs': [1, 'smart-tabs'],
 	}
-}
+};
