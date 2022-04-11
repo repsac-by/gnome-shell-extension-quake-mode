@@ -3,15 +3,16 @@
 /* exported QuakeModeApp, state */
 
 const { Clutter, GLib, Shell } = imports.gi;
-const isOverviewWindow = imports.ui.workspace.Workspace.prototype._isOverviewWindow;
 const { Workspace } = imports.ui.workspace;
+const { _isOverviewWindow } = Workspace.prototype;
 const { altTab } = imports.ui;
 const { getWindows } = altTab;
 
 const Main = imports.ui.main;
 
-const Me = imports.misc.extensionUtils.getCurrentExtension();
-const { getSettings, on, once } = Me.imports.util;
+const { getSettings, getCurrentExtension } = imports.misc.extensionUtils;
+const Me = getCurrentExtension();
+const { on, once } = Me.imports.util;
 
 var state = {
 	INITIAL:  Symbol('INITIAL'),
@@ -36,7 +37,7 @@ var QuakeModeApp = class {
 		const place = () => this.place();
 		const setupOverview = () => this.setupOverview(this.hideFromOverview);
 
-		const settings = this.settings = getSettings();
+		const settings = this.settings = getSettings('com.github.repsac-by.quake-mode');
 
 		settings.connect('changed::quake-mode-width',   place);
 		settings.connect('changed::quake-mode-height',  place);
@@ -48,6 +49,9 @@ var QuakeModeApp = class {
 
 	destroy() {
 		this.state = state.DEAD;
+
+		if (this.hideFromOverview)
+			this.setupOverview(false);
 
 		if ( this.settings ) {
 			this.settings.run_dispose();
@@ -155,11 +159,7 @@ var QuakeModeApp = class {
 				if (this.hideFromOverview)
 					this.setupOverview(true);
 
-				once(this.win, 'unmanaged', () => {
-					if (this.hideFromOverview)
-						this.setupOverview(false);
-					this.destroy();
-				});
+				once(this.win, 'unmanaged', () => this.destroy());
 
 				resolve();
 			});
@@ -265,7 +265,7 @@ var QuakeModeApp = class {
 	setupOverview(hide) {
 		if (hide) {
 			Workspace.prototype._isOverviewWindow = window => {
-				const show = isOverviewWindow(window);
+				const show = _isOverviewWindow(window);
 				return show && window !== this.win;
 			};
 
@@ -274,7 +274,7 @@ var QuakeModeApp = class {
 				return windows.filter(window => window !== this.win);
 			};
 		} else {
-			Workspace.prototype._isOverviewWindow = isOverviewWindow;
+			Workspace.prototype._isOverviewWindow = _isOverviewWindow;
 			altTab.getWindows = getWindows;
 		}
 	}

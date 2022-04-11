@@ -1,10 +1,9 @@
 'use strict';
 
-/* exported on, once, getSettings, initTranslations, getMonitors */
+/* exported on, once, initTranslations, getMonitors */
 const Gettext = imports.gettext;
 const Config = imports.misc.config;
 
-const Gio = imports.gi.Gio;
 const Gdk = imports.gi.Gdk;
 
 const Me = imports.misc.extensionUtils.getCurrentExtension();
@@ -42,22 +41,6 @@ function once(target, signal_name, cb) {
 		signal.off();
 		cb(...args);
 	});
-}
-
-function getSettings() {
-	const dir = Me.dir.get_child('schemas').get_path();
-	const schemaSource = Gio.SettingsSchemaSource;
-	const source = schemaSource.new_from_directory(dir, schemaSource.get_default(), false);
-
-	if ( !source )
-		throw new Error('Error Initializing the thingy.');
-
-	const schema = source.lookup('com.github.repsac-by.quake-mode', false);
-
-	if ( !schema )
-		throw new Error('Schema missing.');
-
-	return new Gio.Settings( { settings_schema: schema } );
 }
 
 function initTranslations(domain = Me.uuid) {
