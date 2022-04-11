@@ -169,25 +169,18 @@ var QuakeModeApp = class {
 	first_place() {
 		const { win, actor } = this;
 
+
 		actor.set_clip(0, 0, actor.width, 0);
-		win.stick();
 
-		on(global.window_manager, 'map', (sig, wm, metaWindowActor) => {
-			if ( metaWindowActor !== actor )
-				return;
+		global.window_manager.emit('kill-window-effects', actor);
+		once(win, 'size-changed')
+			.then( () => {
+				this.state = state.RUNNING;
+				actor.remove_clip();
+				this.show();
+			} );
 
-			sig.off();
-			wm.emit('kill-window-effects', actor);
-
-			once(win, 'size-changed')
-				.then( () => {
-					this.state = state.RUNNING;
-					actor.remove_clip();
-					this.show();
-				} );
-
-			this.place();
-		});
+		this.place();
 	}
 
 	show() {
@@ -205,6 +198,7 @@ var QuakeModeApp = class {
 		actor.translation_y = - actor.height,
 		Main.wm.skipNextEffect(actor);
 		Main.activateWindow(actor.meta_window);
+		actor.meta_window.unmaximize(3);
 
 		actor.ease({
 			translation_y: 0,
