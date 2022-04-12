@@ -37,13 +37,16 @@ function enable() {
 }
 
 function disable() {
-	setTray(false);
-
 	Main.wm.removeKeybinding('quake-mode-hotkey');
 
 	if ( settings ) {
 		settings.run_dispose();
-		settings = null;
+		settings = undefined;
+	}
+
+	if ( indicator ) {
+		indicator.destroy();
+		indicator = undefined;
 	}
 
 	if (app && Main.sessionMode.currentMode !== 'unlock-dialog') {
@@ -68,17 +71,13 @@ async function toggle() {
 }
 
 function setTray(show) {
-	if ( !show ) {
-		if ( indicator ) {
-			indicator.destroy();
-			indicator = undefined;
-		}
-		return;
+	if (indicator) {
+		indicator.destroy();
+		indicator = undefined;
 	}
 
-	if ( indicator )
-		return;
-
-	indicator = new Indicator({ IndicatorName, toggle });
-	Main.panel.addToStatusArea(IndicatorName, indicator.panelButton);
+	if ( show ) {
+		indicator = new Indicator({ IndicatorName, toggle });
+		Main.panel.addToStatusArea(IndicatorName, indicator.panelButton);
+	}
 }
