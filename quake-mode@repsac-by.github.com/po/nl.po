@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-10 19:09+0300\n"
+"POT-Creation-Date: 2022-04-12 09:51+0300\n"
 "PO-Revision-Date: 2020-10-26 13:51+0100\n"
 "Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
 "Language-Team: \n"
@@ -18,50 +18,58 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: prefs.js:45
+#: prefs.js:42
 msgid "Icon"
 msgstr "Pictogram"
 
-#: prefs.js:53
+#: prefs.js:50
 msgid "Minimize on focus out"
 msgstr "Minimaliseren na verlies van focus"
 
-#: prefs.js:63
+#: prefs.js:58
+msgid "Hide from Overview"
+msgstr ""
+
+#: prefs.js:68
 msgid "Width - %"
 msgstr "Breedte (in %)"
 
-#: prefs.js:73
+#: prefs.js:78
 msgid "Height - %"
 msgstr "Hoogte (in %)"
 
-#: prefs.js:83
+#: prefs.js:122
 msgid "Monitor"
 msgstr "Beeldscherm"
 
-#: prefs.js:93
+#: prefs.js:132
 msgid "Animation time - s"
 msgstr "Animatieduur (in sec.)"
 
-#: prefs.js:115 prefs.js:221
+#: prefs.js:154 prefs.js:260
 msgid "Application"
 msgstr "Toepassing"
 
-#: prefs.js:178
+#: prefs.js:217
 msgid "Toggle"
 msgstr "Tonen/Verbergen"
 
-#: prefs.js:184
+#: prefs.js:223
 msgid "Action"
 msgstr "Actie"
 
-#: prefs.js:187
+#: prefs.js:226
 msgid "Shortcut Key"
 msgstr "Sneltoets"
 
-#: prefs.js:220
+#: prefs.js:259
 msgid "Main"
 msgstr "Algemeen"
 
-#: prefs.js:222
+#: prefs.js:261
 msgid "Accelerators"
 msgstr "Sneltoetsen"
+
+#: indicator.js:40
+msgid "Settings"
+msgstr ""

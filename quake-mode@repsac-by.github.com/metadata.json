@@ -4,5 +4,7 @@
 	"uuid": "quake-mode@repsac-by.github.com",
 	"shell-version": ["40", "41", "42"],
 	"version": 5,
-	"url": "https://github.com/repsac-by/gnome-shell-extension-quake-mode"
+	"url": "https://github.com/repsac-by/gnome-shell-extension-quake-mode",
+	"settings-schema": "com.github.repsac-by.quake-mode",
+	"gettext-domain": "quake-mode@repsac-by.github.com"
 }

@@ -9,57 +9,65 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-10 19:09+0300\n"
+"POT-Creation-Date: 2022-04-12 09:51+0300\n"
 "Last-Translator: Muhammed Taha <mtaha1905@yandex.com>\n"
 "Language: Turkish \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: prefs.js:45
+#: prefs.js:42
 msgid "Icon"
 msgstr "kon"
 
-#: prefs.js:53
+#: prefs.js:50
 msgid "Minimize on focus out"
 msgstr "Baka bir yere odaklanldnda terminali klt"
 
-#: prefs.js:63
+#: prefs.js:58
+msgid "Hide from Overview"
+msgstr ""
+
+#: prefs.js:68
 msgid "Width - %"
 msgstr "Genilik (yzde - %)"
 
-#: prefs.js:73
+#: prefs.js:78
 msgid "Height - %"
 msgstr "Ykseklik (yzde - %)"
 
-#: prefs.js:83
+#: prefs.js:122
 msgid "Monitor"
 msgstr "Monitr"
 
-#: prefs.js:93
+#: prefs.js:132
 msgid "Animation time - s"
 msgstr "Animasyon sresi (saniye - s)"
 
-#: prefs.js:115 prefs.js:221
+#: prefs.js:154 prefs.js:260
 msgid "Application"
 msgstr "Uygulama"
 
-#: prefs.js:178
+#: prefs.js:217
 msgid "Toggle"
 msgstr "Kapat/A"
 
-#: prefs.js:184
+#: prefs.js:223
 msgid "Action"
 msgstr "Eylem"
 
-#: prefs.js:187
+#: prefs.js:226
 msgid "Shortcut Key"
 msgstr "Ksayol Tuu"
 
-#: prefs.js:220
+#: prefs.js:259
 msgid "Main"
 msgstr "Ana"
 
-#: prefs.js:222
+#: prefs.js:261
 msgid "Accelerators"
-msgstr "Kısayollar"
+msgstr "Ksayollar"
+
+#: indicator.js:40
+msgid "Settings"
+msgstr ""

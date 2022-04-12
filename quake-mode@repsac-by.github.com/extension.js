@@ -20,7 +20,7 @@ function init() {
 }
 
 function enable() {
-	settings = getSettings('com.github.repsac-by.quake-mode');
+	settings = getSettings();
 
 	setTray(settings.get_boolean('quake-mode-tray'));
 	settings.connect('changed::quake-mode-tray', () => {

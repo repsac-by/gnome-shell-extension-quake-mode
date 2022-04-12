@@ -7,14 +7,15 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Clutter = imports.gi.Clutter;
 
-const { getCurrentExtension, getSettings, openPrefs } = imports.misc.extensionUtils;
+const { getCurrentExtension, getSettings, initTranslations, openPrefs, gettext: _ } = imports.misc.extensionUtils;
 
 const Me = getCurrentExtension();
 const { getMonitors } = Me.imports.util;
 
 var Indicator = class {
 	constructor ({ IndicatorName, toggle }) {
-		this.settings = getSettings('com.github.repsac-by.quake-mode');
+		initTranslations();
+		this.settings = getSettings();
 
 		this.toggle = toggle;
 
@@ -36,7 +37,7 @@ var Indicator = class {
 	}
 
 	getSettingsItem () {
-		const settingsItem = new PopupMenu.PopupMenuItem("Settings");
+		const settingsItem = new PopupMenu.PopupMenuItem(_('Settings'));
 		settingsItem.connect('activate', () => { openPrefs(); });
 
 		return settingsItem;

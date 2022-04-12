@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-10 19:09+0300\n"
+"POT-Creation-Date: 2022-04-12 09:51+0300\n"
 "PO-Revision-Date: 2022-04-09 10:28-0300\n"
 "Last-Translator: Antonio Fernandes Coelho Neto <afernandescneto@gmail.com>\n"
 "Language-Team: \n"
@@ -18,50 +18,58 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: prefs.js:45
+#: prefs.js:42
 msgid "Icon"
 msgstr "Ícone"
 
-#: prefs.js:53
+#: prefs.js:50
 msgid "Minimize on focus out"
 msgstr "Minimize ao perder o foco"
 
-#: prefs.js:63
+#: prefs.js:58
+msgid "Hide from Overview"
+msgstr ""
+
+#: prefs.js:68
 msgid "Width - %"
 msgstr "Largura - %"
 
-#: prefs.js:73
+#: prefs.js:78
 msgid "Height - %"
 msgstr "Altura - %"
 
-#: prefs.js:83
+#: prefs.js:122
 msgid "Monitor"
 msgstr "Monitor"
 
-#: prefs.js:93
+#: prefs.js:132
 msgid "Animation time - s"
 msgstr "Duração da animação - s"
 
-#: prefs.js:115 prefs.js:221
+#: prefs.js:154 prefs.js:260
 msgid "Application"
 msgstr "Aplicativo"
 
-#: prefs.js:178
+#: prefs.js:217
 msgid "Toggle"
 msgstr "Alternar"
 
-#: prefs.js:184
+#: prefs.js:223
 msgid "Action"
 msgstr "Ação"
 
-#: prefs.js:187
+#: prefs.js:226
 msgid "Shortcut Key"
 msgstr "Tecla de atalho"
 
-#: prefs.js:220
+#: prefs.js:259
 msgid "Main"
 msgstr "Principal"
 
-#: prefs.js:222
+#: prefs.js:261
 msgid "Accelerators"
 msgstr "Aceleradores"
+
+#: indicator.js:40
+msgid "Settings"
+msgstr ""

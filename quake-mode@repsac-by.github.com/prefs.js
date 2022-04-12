@@ -7,18 +7,15 @@ const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 
-const { getSettings, getCurrentExtension } = imports.misc.extensionUtils;
+const { getSettings, getCurrentExtension, initTranslations, gettext: _ } = imports.misc.extensionUtils;
 const Me = getCurrentExtension();
 
-const Gettext = imports.gettext.domain(Me.uuid);
-const _ = Gettext.gettext;
-
-const { initTranslations, getMonitors } = Me.imports.util;
+const { getMonitors } = Me.imports.util;
 
 let settings;
 
 function init() {
-	settings = getSettings('com.github.repsac-by.quake-mode');
+	settings = getSettings();
 	initTranslations();
 }
 

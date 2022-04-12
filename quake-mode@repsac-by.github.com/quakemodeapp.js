@@ -37,7 +37,7 @@ var QuakeModeApp = class {
 		const place = () => this.place();
 		const setupOverview = () => this.setupOverview(this.hideFromOverview);
 
-		const settings = this.settings = getSettings('com.github.repsac-by.quake-mode');
+		const settings = this.settings = getSettings();
 
 		settings.connect('changed::quake-mode-width',   place);
 		settings.connect('changed::quake-mode-height',  place);

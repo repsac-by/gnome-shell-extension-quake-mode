@@ -1,12 +1,8 @@
 'use strict';
 
-/* exported on, once, initTranslations, getMonitors */
-const Gettext = imports.gettext;
-const Config = imports.misc.config;
+/* exported on, once, getMonitors */
 
 const Gdk = imports.gi.Gdk;
-
-const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 class Signal {
 	constructor(target, name, cb) {
@@ -41,15 +37,6 @@ function once(target, signal_name, cb) {
 		signal.off();
 		cb(...args);
 	});
-}
-
-function initTranslations(domain = Me.uuid) {
-
-	const localeDir = Me.dir.get_child('locale');
-	if ( localeDir.query_exists(null) )
-		Gettext.bindtextdomain(domain, localeDir.get_path());
-	else
-		Gettext.bindtextdomain(domain, Config.LOCALEDIR);
 }
 
 function getMonitors() {
