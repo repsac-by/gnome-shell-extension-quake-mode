@@ -7,8 +7,9 @@ const GObject = imports.gi.GObject;
 const Gio = imports.gi.Gio;
 const Gtk = imports.gi.Gtk;
 
-const { getSettings, getCurrentExtension, initTranslations, gettext: _ } = imports.misc.extensionUtils;
+const { getSettings, getCurrentExtension, initTranslations } = imports.misc.extensionUtils;
 const Me = getCurrentExtension();
+const _ = imports.gettext.domain(Me.uuid).gettext;
 
 const { getMonitors } = Me.imports.util;
 

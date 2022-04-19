@@ -7,9 +7,10 @@ const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Clutter = imports.gi.Clutter;
 
-const { getCurrentExtension, getSettings, initTranslations, openPrefs, gettext: _ } = imports.misc.extensionUtils;
-
+const { getCurrentExtension, getSettings, initTranslations, openPrefs } = imports.misc.extensionUtils;
 const Me = getCurrentExtension();
+const _ = imports.gettext.domain(Me.uuid).gettext;
+
 const { getMonitors } = Me.imports.util;
 
 var Indicator = class {
