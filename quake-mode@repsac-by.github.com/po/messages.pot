@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 09:51+0300\n"
+"POT-Creation-Date: 2022-04-19 09:40+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,58 +17,59 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: prefs.js:42
+#: quake-mode@repsac-by.github.com/prefs.js:43
 msgid "Icon"
 msgstr ""
 
-#: prefs.js:50
+#: quake-mode@repsac-by.github.com/prefs.js:51
 msgid "Minimize on focus out"
 msgstr ""
 
-#: prefs.js:58
+#: quake-mode@repsac-by.github.com/prefs.js:59
 msgid "Hide from Overview"
 msgstr ""
 
-#: prefs.js:68
+#: quake-mode@repsac-by.github.com/prefs.js:69
 msgid "Width - %"
 msgstr ""
 
-#: prefs.js:78
+#: quake-mode@repsac-by.github.com/prefs.js:79
 msgid "Height - %"
 msgstr ""
 
-#: prefs.js:122
+#: quake-mode@repsac-by.github.com/prefs.js:123
 msgid "Monitor"
 msgstr ""
 
-#: prefs.js:132
+#: quake-mode@repsac-by.github.com/prefs.js:133
 msgid "Animation time - s"
 msgstr ""
 
-#: prefs.js:154 prefs.js:260
+#: quake-mode@repsac-by.github.com/prefs.js:155
+#: quake-mode@repsac-by.github.com/prefs.js:261
 msgid "Application"
 msgstr ""
 
-#: prefs.js:217
+#: quake-mode@repsac-by.github.com/prefs.js:218
 msgid "Toggle"
 msgstr ""
 
-#: prefs.js:223
+#: quake-mode@repsac-by.github.com/prefs.js:224
 msgid "Action"
 msgstr ""
 
-#: prefs.js:226
+#: quake-mode@repsac-by.github.com/prefs.js:227
 msgid "Shortcut Key"
 msgstr ""
 
-#: prefs.js:259
+#: quake-mode@repsac-by.github.com/prefs.js:260
 msgid "Main"
 msgstr ""
 
-#: prefs.js:261
+#: quake-mode@repsac-by.github.com/prefs.js:262
 msgid "Accelerators"
 msgstr ""
 
-#: indicator.js:40
+#: quake-mode@repsac-by.github.com/indicator.js:41
 msgid "Settings"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 09:51+0300\n"
+"POT-Creation-Date: 2022-04-19 09:40+0300\n"
 "PO-Revision-Date: 2022-04-09 10:28-0300\n"
 "Last-Translator: Antonio Fernandes Coelho Neto <afernandescneto@gmail.com>\n"
 "Language-Team: \n"
@@ -18,58 +18,59 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: prefs.js:42
+#: quake-mode@repsac-by.github.com/prefs.js:43
 msgid "Icon"
 msgstr "Ícone"
 
-#: prefs.js:50
+#: quake-mode@repsac-by.github.com/prefs.js:51
 msgid "Minimize on focus out"
 msgstr "Minimize ao perder o foco"
 
-#: prefs.js:58
+#: quake-mode@repsac-by.github.com/prefs.js:59
 msgid "Hide from Overview"
 msgstr ""
 
-#: prefs.js:68
+#: quake-mode@repsac-by.github.com/prefs.js:69
 msgid "Width - %"
 msgstr "Largura - %"
 
-#: prefs.js:78
+#: quake-mode@repsac-by.github.com/prefs.js:79
 msgid "Height - %"
 msgstr "Altura - %"
 
-#: prefs.js:122
+#: quake-mode@repsac-by.github.com/prefs.js:123
 msgid "Monitor"
 msgstr "Monitor"
 
-#: prefs.js:132
+#: quake-mode@repsac-by.github.com/prefs.js:133
 msgid "Animation time - s"
 msgstr "Duração da animação - s"
 
-#: prefs.js:154 prefs.js:260
+#: quake-mode@repsac-by.github.com/prefs.js:155
+#: quake-mode@repsac-by.github.com/prefs.js:261
 msgid "Application"
 msgstr "Aplicativo"
 
-#: prefs.js:217
+#: quake-mode@repsac-by.github.com/prefs.js:218
 msgid "Toggle"
 msgstr "Alternar"
 
-#: prefs.js:223
+#: quake-mode@repsac-by.github.com/prefs.js:224
 msgid "Action"
 msgstr "Ação"
 
-#: prefs.js:226
+#: quake-mode@repsac-by.github.com/prefs.js:227
 msgid "Shortcut Key"
 msgstr "Tecla de atalho"
 
-#: prefs.js:259
+#: quake-mode@repsac-by.github.com/prefs.js:260
 msgid "Main"
 msgstr "Principal"
 
-#: prefs.js:261
+#: quake-mode@repsac-by.github.com/prefs.js:262
 msgid "Accelerators"
 msgstr "Aceleradores"
 
-#: indicator.js:40
+#: quake-mode@repsac-by.github.com/indicator.js:41
 msgid "Settings"
 msgstr ""
