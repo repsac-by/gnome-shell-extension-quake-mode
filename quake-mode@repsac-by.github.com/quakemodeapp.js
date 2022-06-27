@@ -36,6 +36,7 @@ var QuakeModeApp = class {
 
 		const place = () => this.place();
 		const setupOverview = () => this.setupOverview(this.hideFromOverview);
+		const setupAlwaysOnTop = () => this.setupAlwaysOnTop(this.alwaysOnTop);
 
 		const settings = this.settings = getSettings();
 
@@ -43,6 +44,7 @@ var QuakeModeApp = class {
 		settings.connect('changed::quake-mode-height',  place);
 		settings.connect('changed::quake-mode-monitor', place);
 		settings.connect('changed::quake-mode-hide-from-overview', setupOverview);
+		settings.connect('changed::quake-mode-always-on-top', setupAlwaysOnTop);
 
 		this.state = state.READY;
 	}
@@ -94,6 +96,8 @@ var QuakeModeApp = class {
 	get ainmation_time() { return this.settings.get_double('quake-mode-animation-time') * 1000; }
 
 	get hideFromOverview () { return this.settings.get_boolean('quake-mode-hide-from-overview'); }
+
+	get alwaysOnTop () { return this.settings.get_boolean( 'quake-mode-always-on-top' ); }
 
 	get monitor() {
 		const { win, settings } = this;
@@ -158,6 +162,8 @@ var QuakeModeApp = class {
 
 				if (this.hideFromOverview)
 					this.setupOverview(true);
+
+				this.setupAlwaysOnTop(this.alwaysOnTop);
 
 				once(this.win, 'unmanaged', () => this.destroy());
 
@@ -277,5 +283,17 @@ var QuakeModeApp = class {
 			Workspace.prototype._isOverviewWindow = _isOverviewWindow;
 			altTab.getWindows = getWindows;
 		}
+	}
+
+	setupAlwaysOnTop(above) {
+		const { win } = this;
+
+		if ( !win )
+			return;
+
+		if ( above )
+			win.make_above();
+		else
+			win.unmake_above();
 	}
 };

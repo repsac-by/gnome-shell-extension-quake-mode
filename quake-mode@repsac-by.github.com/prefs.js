@@ -58,6 +58,14 @@ const QuakeModePrefsWidget
 		this.attach(label(_('Hide from Overview')), 0, ++r, 1, 1);
 		this.attach(hideFromOverview, 1, r, 1, 1);
 
+		// Hide from Overview
+		const alwaysOnTop = new Gtk.Switch( { halign: Gtk.Align.START } );
+
+		settings.bind( 'quake-mode-always-on-top', alwaysOnTop, 'state', Gio.SettingsBindFlags.DEFAULT );
+
+		this.attach( label( _( 'Always on Top' ) ), 0, ++r, 1, 1 );
+		this.attach( alwaysOnTop, 1, r, 1, 1 );
+
 		// Width
 		const spinWidth = new Gtk.SpinButton();
 		spinWidth.set_range(0, 100);
