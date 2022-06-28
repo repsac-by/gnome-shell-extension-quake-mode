@@ -42,6 +42,8 @@ var QuakeModeApp = class {
 
 		settings.connect('changed::quake-mode-width',   place);
 		settings.connect('changed::quake-mode-height',  place);
+		settings.connect('changed::quake-mode-halign',  place);
+		settings.connect('changed::quake-mode-valign',  place);
 		settings.connect('changed::quake-mode-monitor', place);
 		settings.connect('changed::quake-mode-hide-from-overview', setupOverview);
 		settings.connect('changed::quake-mode-always-on-top', setupAlwaysOnTop);
@@ -98,6 +100,10 @@ var QuakeModeApp = class {
 	get hideFromOverview () { return this.settings.get_boolean('quake-mode-hide-from-overview'); }
 
 	get alwaysOnTop () { return this.settings.get_boolean( 'quake-mode-always-on-top' ); }
+
+	get halign () { return this.settings.get_enum('quake-mode-halign'); }
+
+	get valign() { return this.settings.get_string( 'quake-mode-valign' ); }
 
 	get monitor() {
 		const { win, settings } = this;
@@ -197,7 +203,7 @@ var QuakeModeApp = class {
 	}
 
 	show() {
-		const { actor, focusout } = this;
+		const { actor, focusout, valign } = this;
 
 		if ( this.state !== state.RUNNING )
 			return;
@@ -208,7 +214,7 @@ var QuakeModeApp = class {
 		this.isTransition = true;
 
 		actor.get_parent().set_child_above_sibling(actor, null);
-		actor.translation_y = - actor.height,
+		actor.translation_y = actor.height * (valign === 'top' ? -1 : 2),
 		Main.wm.skipNextEffect(actor);
 		Main.activateWindow(actor.meta_window);
 
@@ -228,7 +234,7 @@ var QuakeModeApp = class {
 	}
 
 	hide() {
-		const { actor } = this;
+		const { actor, valign } = this;
 
 		if ( this.state !== state.RUNNING )
 			return;
@@ -239,7 +245,7 @@ var QuakeModeApp = class {
 		this.isTransition = true;
 
 		actor.ease({
-			translation_y: - actor.height,
+			translation_y: actor.height * (valign === 'top' ? -1 : 2),
 			duration: this.ainmation_time,
 			mode: Clutter.AnimationMode.EASE_IN_QUART,
 			onComplete: () => {
@@ -252,7 +258,7 @@ var QuakeModeApp = class {
 	}
 
 	place() {
-		const { win, width, height, monitor } = this;
+		const { win, width, height, halign, valign, monitor } = this;
 
 		if ( !win )
 			return;
@@ -261,8 +267,8 @@ var QuakeModeApp = class {
 			area = win.get_work_area_for_monitor(monitor),
 			w = Math.round(width * area.width / 100),
 			h = Math.round(height * area.height / 100),
-			x = Math.round((area.width - w) / 2) + area.x,
-			y = area.y;
+			x = area.x + Math.round(halign && ( area.width - w ) / halign),
+			y = area.y + (valign === 'top' ? 0 : area.height - height);
 
 		win.move_to_monitor(monitor);
 		win.move_resize_frame(false, x, y, w, h);

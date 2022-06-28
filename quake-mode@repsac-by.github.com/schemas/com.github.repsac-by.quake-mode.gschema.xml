@@ -2,6 +2,17 @@
 
 <schemalist>
 
+	<enum id="com.github.repsac-by.quake-mode.halignment">
+		<value nick="left" value="0" />
+		<value nick="right" value="1" />
+		<value nick="center" value="2" />
+	</enum>
+
+	<enum id="com.github.repsac-by.quake-mode.valignment">
+		<value nick="top" value="0" />
+		<value nick="bottom" value="1" />
+	</enum>
+
   <schema path="/com/github/repsac-by/quake-mode/" id="com.github.repsac-by.quake-mode">
 
 	<key name="quake-mode-app" type="s">
@@ -46,6 +57,14 @@
 
 	<key name="quake-mode-always-on-top" type="b">
 		<default>false</default>
+	</key>
+
+	<key name="quake-mode-halign" enum="com.github.repsac-by.quake-mode.halignment">
+		<default>'center'</default>
+	</key>
+
+	<key name="quake-mode-valign" enum="com.github.repsac-by.quake-mode.valignment">
+		<default>'top'</default>
 	</key>
 
   </schema>

@@ -23,12 +23,12 @@ const QuakeModePrefsWidget
 = GObject.registerClass(class QuakeModePrefsWidget extends Gtk.Grid {
 	_init(params) {
 		super._init(params);
-		this.set_margin_top(30);
-		this.set_margin_bottom(30);
-		this.set_margin_start(30);
-		this.set_margin_end(30);
-		this.set_row_spacing(20);
-		this.set_column_spacing(30);
+		this.set_margin_top(10);
+		this.set_margin_bottom(10);
+		this.set_margin_start(10);
+		this.set_margin_end(10);
+		this.set_row_spacing(10);
+		this.set_column_spacing(10);
 		this.set_orientation(Gtk.Orientation.VERTICAL);
 
 		let r = -1;
@@ -58,7 +58,7 @@ const QuakeModePrefsWidget
 		this.attach(label(_('Hide from Overview')), 0, ++r, 1, 1);
 		this.attach(hideFromOverview, 1, r, 1, 1);
 
-		// Hide from Overview
+		// Always on top
 		const alwaysOnTop = new Gtk.Switch( { halign: Gtk.Align.START } );
 
 		settings.bind( 'quake-mode-always-on-top', alwaysOnTop, 'state', Gio.SettingsBindFlags.DEFAULT );
@@ -85,6 +85,81 @@ const QuakeModePrefsWidget
 
 		this.attach(label(_('Height - %')), 0, ++r, 1, 1);
 		this.attach(spinHeight, 1, r, 1, 1);
+
+		// Horizontal align
+		{
+			const key = 'quake-mode-halign';
+			const items = [
+				{ label: _('Left'), value: 'left' },
+				{ label: _('Right'), value: 'right' },
+				{ label: _('Center'), value: 'center' },
+			];
+
+			const model = new Gtk.ListStore();
+			model.set_column_types( [ GObject.TYPE_STRING, GObject.TYPE_STRING ] );
+
+			const widget = new Gtk.ComboBox( { model } );
+			const renderer = new Gtk.CellRendererText();
+
+			widget.pack_start( renderer, true );
+			widget.add_attribute( renderer, 'text', 0 );
+
+			const current = settings.get_string(key);
+
+			for (const { label, value } of items) {
+				const iter = model.append();
+				model.set(iter, [ 0, 1 ], [ label, value ]);
+				if (current === value) widget.set_active_iter(iter);
+			}
+
+			widget.connect('changed', widget => {
+				const [ ok, iter ] = widget.get_active_iter();
+				if (ok) {
+					const value = model.get_value(iter, 1 );
+					settings.set_string(key, value);
+				}
+			});
+
+			this.attach( label(_('Horizontal align')), 0, ++r, 1, 1 );
+			this.attach( widget, 1, r, 1, 1 );
+		}
+
+		// Vertical align
+		{
+			const key = 'quake-mode-valign';
+			const items = [
+				{ label: _( 'Top' ), value: 'top' },
+				{ label: _( 'Bottom' ), value: 'bottom' },
+			];
+
+			const model = new Gtk.ListStore();
+			model.set_column_types( [ GObject.TYPE_STRING, GObject.TYPE_STRING ] );
+
+			const widget = new Gtk.ComboBox( { model } );
+			const renderer = new Gtk.CellRendererText();
+
+			widget.pack_start( renderer, true );
+			widget.add_attribute( renderer, 'text', 0 );
+
+			const current = settings.get_string( key );
+
+			for ( const { label, value } of items ) {
+				const iter = model.append();
+				model.set( iter, [ 0, 1 ], [ label, value ] );
+				if ( current === value ) widget.set_active_iter(iter);
+			}
+
+			widget.connect( 'changed', widget => {
+				const [ ok, iter ] = widget.get_active_iter();
+				if ( ok ) {
+					const value = model.get_value(iter, 1);
+					settings.set_string(key, value);
+				}
+			} );
+
+			this.attach( label( _( 'Vertical align' ) ), 0, ++r, 1, 1 );
+			this.attach( widget, 1, r, 1, 1 );
+		}
 
 		// Monitor Number
 		const Columns = {LABEL: 0, VALUE: 1};
@@ -146,12 +221,12 @@ const ApplicationWidget
 = GObject.registerClass(class ApplicationWidget extends Gtk.Grid {
 	_init(params) {
 		super._init(params);
-		this.set_margin_top(30);
-		this.set_margin_bottom(30);
-		this.set_margin_start(30);
-		this.set_margin_end(30);
-		this.set_row_spacing(20);
-		this.set_column_spacing(30);
+		this.set_margin_top(10);
+		this.set_margin_bottom(10);
+		this.set_margin_start(10);
+		this.set_margin_end(10);
+		this.set_row_spacing(10);
+		this.set_column_spacing(10);
 		this.set_orientation(Gtk.Orientation.VERTICAL);
 
 		const entryApp = new Gtk.Entry({ hexpand: true });
