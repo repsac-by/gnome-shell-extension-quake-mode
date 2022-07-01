@@ -13,60 +13,79 @@
 		<value nick="bottom" value="1" />
 	</enum>
 
-  <schema path="/com/github/repsac-by/quake-mode/" id="com.github.repsac-by.quake-mode">
+  	<schema id="com.github.repsac-by.quake-mode.accelerators">
+		<key name="quake-mode-accelerator-1" type="as"><default>[]</default></key>
+		<key name="quake-mode-accelerator-2" type="as"><default>[]</default></key>
+		<key name="quake-mode-accelerator-3" type="as"><default>[]</default></key>
+		<key name="quake-mode-accelerator-4" type="as"><default>[]</default></key>
+		<key name="quake-mode-accelerator-5" type="as"><default>[]</default></key>
+	</schema>
 
-	<key name="quake-mode-app" type="s">
-		<default>'com.gexperts.Tilix.desktop'</default>
-	</key>
+  	<schema id="com.github.repsac-by.quake-mode.apps">
+		<key name="app-1" type="s"><default>''</default></key>
+		<key name="app-2" type="s"><default>''</default></key>
+		<key name="app-3" type="s"><default>''</default></key>
+		<key name="app-4" type="s"><default>''</default></key>
+		<key name="app-5" type="s"><default>''</default></key>
+	</schema>
 
-	<key name="quake-mode-hotkey" type="as">
-	  <default><![CDATA[['F1']]]></default>
-	</key>
 
-	<key name="quake-mode-monitor" type="i">
-		<range min="0" max="20"/>
-		<default>0</default>
-	</key>
+	<schema id="com.github.repsac-by.quake-mode" path="/com/github/repsac-by/quake-mode/">
 
-	<key name="quake-mode-width" type="i">
-		<range min="1" max="100"/>
-		<default>80</default>
-	</key>
+		<key name="quake-mode-app" type="s">
+			<default>''</default>
+		</key>
 
-	<key name="quake-mode-height" type="i">
-		<range min="1" max="100"/>
-		<default>46</default>
-	</key>
+		<key name="quake-mode-hotkey" type="as">
+		<default><![CDATA[['']]]></default>
+		</key>
 
-	<key name="quake-mode-animation-time" type="d">
-		<range min="0.1" max="2"/>
-		<default>0.25</default>
-	</key>
+		<key name="quake-mode-monitor" type="i">
+			<range min="0" max="20"/>
+			<default>0</default>
+		</key>
 
-	<key name="quake-mode-tray" type="b">
-		<default>true</default>
-	</key>
+		<key name="quake-mode-width" type="i">
+			<range min="1" max="100"/>
+			<default>80</default>
+		</key>
 
-	<key name="quake-mode-focusout" type="b">
-		<default>false</default>
-	</key>
+		<key name="quake-mode-height" type="i">
+			<range min="1" max="100"/>
+			<default>46</default>
+		</key>
 
-	<key name="quake-mode-hide-from-overview" type="b">
-		<default>false</default>
-	</key>
+		<key name="quake-mode-animation-time" type="d">
+			<range min="0.1" max="2"/>
+			<default>0.25</default>
+		</key>
 
-	<key name="quake-mode-always-on-top" type="b">
-		<default>false</default>
-	</key>
+		<key name="quake-mode-tray" type="b">
+			<default>true</default>
+		</key>
 
-	<key name="quake-mode-halign" enum="com.github.repsac-by.quake-mode.halignment">
-		<default>'center'</default>
-	</key>
+		<key name="quake-mode-focusout" type="b">
+			<default>false</default>
+		</key>
 
-	<key name="quake-mode-valign" enum="com.github.repsac-by.quake-mode.valignment">
-		<default>'top'</default>
-	</key>
+		<key name="quake-mode-hide-from-overview" type="b">
+			<default>false</default>
+		</key>
 
+		<key name="quake-mode-always-on-top" type="b">
+			<default>false</default>
+		</key>
+
+		<key name="quake-mode-halign" enum="com.github.repsac-by.quake-mode.halignment">
+			<default>'center'</default>
+		</key>
+
+		<key name="quake-mode-valign" enum="com.github.repsac-by.quake-mode.valignment">
+			<default>'top'</default>
+		</key>
+
+		<child name="accelerators" schema="com.github.repsac-by.quake-mode.accelerators"/>
+		<child name="apps" schema="com.github.repsac-by.quake-mode.apps"/>
   </schema>
 
 </schemalist>

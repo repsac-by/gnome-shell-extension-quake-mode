@@ -1,17 +1,15 @@
 'use strict';
 
 /* exported init, buildPrefsWidget */
-/* global Intl */
 
-const GObject = imports.gi.GObject;
-const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
+const { GObject, Gio, Gtk } = imports.gi;
 
 const { getSettings, getCurrentExtension, initTranslations, gettext: _ } = imports.misc.extensionUtils;
 const Me = getCurrentExtension();
 
 const { getMonitors } = Me.imports.util;
 
+/** @type {typeof Gio.Settings} */
 let settings;
 
 function init() {
@@ -217,121 +215,114 @@ const QuakeModePrefsWidget
 	}
 });
 
-const ApplicationWidget
-= GObject.registerClass(class ApplicationWidget extends Gtk.Grid {
-	_init(params) {
-		super._init(params);
-		this.set_margin_top(10);
-		this.set_margin_bottom(10);
-		this.set_margin_start(10);
-		this.set_margin_end(10);
-		this.set_row_spacing(10);
-		this.set_column_spacing(10);
-		this.set_orientation(Gtk.Orientation.VERTICAL);
-
-		const entryApp = new Gtk.Entry({ hexpand: true });
-		entryApp.editable = false;
-
-		settings.bind('quake-mode-app', entryApp, 'text', Gio.SettingsBindFlags.DEFAULT);
-
-		this.attach(new Gtk.Label({	label: _('Application'), halign: Gtk.Align.END }), 0, 0, 1, 1);
-		this.attach(entryApp, 1, 0, 1, 1);
-
-		const listBox = new Gtk.ListBox({ activate_on_single_click: false });
-
-		const searchEntry = new Gtk.SearchEntry();
-		this.attach(searchEntry, 0, 1, 2, 1);
-
-		searchEntry.connect('search-changed', () => {
-			const filter = searchEntry.text.trim().toLowerCase();
-			listBox.set_filter_func( !filter ? null : row => ~row.__app.name.indexOf(filter) );
-		});
-
-		const collator = new Intl.Collator();
-		listBox.set_sort_func((a, b) => collator.compare(a.__app.name, b.__app.name));
-
-		listBox.connect('row-activated', (listBox, row) => {
-			entryApp.set_text(row.__app.id);
-		});
-
-		Gio.app_info_get_all()
-			.filter(a => a.should_show())
-			.forEach(a => listBox.append(buildRow(a)));
-
-		const scrolledWindow = new Gtk.ScrolledWindow({ vexpand: true });
-		scrolledWindow.set_child(listBox);
-
-		this.attach(scrolledWindow, 0, 2, 2, 1);
-
-		function buildRow(app) {
-			const name = app.get_display_name();
-			const icon = app.get_icon();
-			const image = icon
-				? Gtk.Image.new_from_gicon(icon)
-				: Gtk.Image.new_from_icon_name('application-x-executable');
-
-			const label = new Gtk.Label({ label: name });
-			const grid  = new Gtk.Grid({ hexpand: true, column_spacing: 5 });
-
-			grid.attach(image, 0, 0, 1, 1);
-			grid.attach(label, 1, 0, 1, 1);
-
-			const row = new Gtk.ListBoxRow();
-			row.set_child(grid);
-
-			row.__app = {
-				id: app.get_id(),
-				name: name.toLowerCase(),
-			};
-
-			return row;
-		}
-	}
-});
-
 const AcceleratorsWidget
 = GObject.registerClass(class AcceleratorsWidget extends Gtk.TreeView {
 	_init(params) {
 		super._init(params);
-		this.model = Gtk.ListStore.new([ GObject.TYPE_STRING, GObject.TYPE_STRING ]);
 
-		const updateRow = iter => {
-			const a = settings.get_strv('quake-mode-hotkey')[0] || '';
-			this.model.set(iter, [0, 1], [ _('Toggle'), a ]);
+		const Columns = { action: 0, accel: 1, app_id: 2, i: 3 };
+
+		const model = this.model = Gtk.ListStore.new([
+			GObject.TYPE_STRING,
+			GObject.TYPE_STRING,
+			GObject.TYPE_STRING,
+			GObject.TYPE_INT,
+		]);
+
+		function add_row([ accelerator, app_id, i ]) {
+			model.set(model.append(), [0, 1, 2, 3], [ _('Toggle'), accelerator, app_id, i ]);
+		}
+
+		for (let i = 1; i <=5; i++) {
+			add_row([
+				settings.get_child('accelerators').get_strv(`quake-mode-accelerator-${i}`)[0] || '',
+				settings.get_child('apps').get_string(`app-${i}`),
+				i,
+			]);
+		}
+
+		const actions = {
+			column: new Gtk.TreeViewColumn( { title: _( 'Action' ), expand: true } ),
+			renderer: new Gtk.CellRendererText(),
 		};
 
-		// Hotkey
-		const iter = this.model.append();
+		const accels = {
+			column: new Gtk.TreeViewColumn( { title: _( 'Shortcut Key' ), min_width: 100 } ),
+			renderer: new Gtk.CellRendererAccel( { editable: true } ),
+		};
 
-		const actions      = new Gtk.TreeViewColumn({ title: _('Action'), expand: true });
-		const nameRender = new Gtk.CellRendererText();
+		const apps = {
+			column: new Gtk.TreeViewColumn( { title: _( 'Application' ), min_width: 150 } ),
+			renderer: new Gtk.CellRendererText( { editable: true } ),
+		};
 
-		const accels      = new Gtk.TreeViewColumn({ title: _('Shortcut Key'), min_width: 150 });
-		const accelRender = new Gtk.CellRendererAccel({ editable: true });
+		actions.column.pack_start(actions.renderer, true);
+		accels.column.pack_start(accels.renderer, true);
+		apps.column.pack_start(apps.renderer, true );
 
-		actions.pack_start(nameRender, true);
-		accels.pack_start(accelRender, true);
-
-		actions.set_cell_data_func(nameRender, (column, cell, model, iter) => {
-			cell.text = model.get_value(iter, 0);
+		actions.column.set_cell_data_func(actions.renderer, (column, cell, model, iter) => {
+			cell.text = model.get_value(iter, Columns.action);
 		});
 
-		accels.set_cell_data_func(accelRender, (column, cell, model, iter) => {
-			let ok = false;
-			[ ok, cell.accel_key, cell.accel_mods ] = Gtk.accelerator_parse(model.get_value(iter, 1));
+		accels.column.set_cell_data_func(accels.renderer, (column, cell, model, iter) => {
+			[ , cell.accel_key, cell.accel_mods ] = Gtk.accelerator_parse(model.get_value(iter, Columns.accel));
 		});
 
-		accelRender.connect('accel-edited', (self, path, accel_key, accel_mod) => {
-			settings.set_strv('quake-mode-hotkey', [ Gtk.accelerator_name(accel_key, accel_mod) ]);
+		apps.column.set_cell_data_func(apps.renderer, ( column, cell, model, iter ) => {
+			const app_id = model.get_value(iter, Columns.app_id);
+			const app = app_id && Gio.DesktopAppInfo.new(app_id);
+			cell.text = app ? app.get_display_name() : '';
 		});
 
-		accelRender.connect('accel-cleared', () => settings.set_strv('quake-mode-hotkey', []) );
+		this.append_column( actions.column );
+		this.append_column( accels.column );
+		this.append_column( apps.column );
 
-		updateRow(iter);
-		settings.connect('changed::quake-mode-hotkey', () => updateRow(iter));
+		accels.renderer.connect('accel-edited', (renderer, path, accel_key, accel_mod) => {
+			const [ ok, iter ] = model.get_iter( Gtk.TreePath.new_from_string( path ) );
+			if ( ok ) {
+				const name = Gtk.accelerator_name( accel_key, accel_mod );
+				model.set(iter, [Columns.accel], [name]);
 
-		this.append_column(actions);
-		this.append_column(accels);
+				const i = model.get_value(iter, Columns.i);
+				settings.get_child('accelerators').set_strv(`quake-mode-accelerator-${i}`, [name]);
+			}
+		});
+
+		accels.renderer.connect('accel-cleared', (renderer, path) => {
+			const [ok, iter] = model.get_iter(Gtk.TreePath.new_from_string(path));
+			if (ok) {
+				model.set(iter, [Columns.accel], ['']);
+				const i = model.get_value(iter, Columns.i);
+				settings.get_child('accelerators').reset(`quake-mode-accelerator-${i}`);
+			}
+		});
+
+		apps.renderer.connect('editing-started', (renderer, cell, path) => {
+			const dialog = new Gtk.AppChooserDialog({
+				destroy_with_parent: true,
+				modal: true,
+				transient_for: this.get_root(),
+			});
+
+			dialog.get_widget().set({ show_all: false, show_other: true });
+
+			dialog.connect('response', ( dialog, response ) => {
+				if ( response === Gtk.ResponseType.OK ) {
+					const [ ok, iter ] = model.get_iter( Gtk.TreePath.new_from_string( path ) );
+					if ( ok ) {
+						const app_id = dialog.get_app_info().get_id();
+						model.set_value( iter, Columns.app_id, app_id);
+
+						const i = model.get_value(iter, Columns.i);
+						settings.get_child('apps').set_string(`app-${i}`, app_id);
+					}
+				}
+				dialog.destroy();
+			});
+
+			dialog.show();
+		});
 	}
 });
 
@@ -340,7 +331,6 @@ const Notebook
 	_init(params) {
 		super._init(params);
 		this.append_page(new QuakeModePrefsWidget, new Gtk.Label({ label: _('Main') }));
-		this.append_page(new ApplicationWidget,    new Gtk.Label({ label: _('Application') }));
 		this.append_page(new AcceleratorsWidget,   new Gtk.Label({ label: _('Accelerators') }));
 	}
 });

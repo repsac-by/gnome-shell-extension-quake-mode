@@ -2,9 +2,11 @@
 
 /* exported init, enable, disable */
 
-const Meta  = imports.gi.Meta;
-const Shell = imports.gi.Shell;
-const Main  = imports.ui.main;
+const { Meta, Shell } = imports.gi;
+const { main, altTab } = imports.ui;
+const { Workspace } = imports.ui.workspace;
+const { _isOverviewWindow } = Workspace.prototype;
+const { getWindows } = altTab;
 
 const { getSettings, getCurrentExtension } = imports.misc.extensionUtils;
 const Me = getCurrentExtension();
@@ -12,9 +14,12 @@ const Me = getCurrentExtension();
 const { QuakeModeApp, state } = Me.imports.quakemodeapp;
 const { Indicator } = Me.imports.indicator;
 
-let indicator, settings, app;
+let indicator, settings;
 
 const IndicatorName = 'Quake-mode';
+
+const APPS_COUNT = 5;
+const apps = new Map();
 
 function init() {
 }
@@ -27,21 +32,38 @@ function enable() {
 		setTray(settings.get_boolean('quake-mode-tray'));
 	});
 
-	Main.wm.addKeybinding(
-		'quake-mode-hotkey',
-		settings,
-		Meta.KeyBindingFlags.NONE,
-		Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW | Shell.ActionMode.POPUP,
-		toggle
-	);
+	setupOverview(settings.get_boolean('quake-mode-hide-from-overview'));
+	settings.connect('changed::quake-mode-hide-from-overview', () => {
+		setupOverview(settings.get_boolean('quake-mode-hide-from-overview'));
+	});
+
+	if ( settings.get_string( 'quake-mode-app' )) {
+		settings.get_child('apps').set_string('app-1', settings.get_string('quake-mode-app'));
+		settings.reset('quake-mode-app');
+	}
+
+	if ( settings.get_strv( 'quake-mode-hotkey' )[0] ) {
+		settings.get_child('accelerators').set_strv('quake-mode-accelerator-1',  settings.get_strv( 'quake-mode-hotkey' ));
+		settings.reset( 'quake-mode-hotkey' );
+	}
+
+	for (let i = 1; i <= APPS_COUNT; i++) {
+		main.wm.addKeybinding(
+			`quake-mode-accelerator-${i}`,
+			settings.get_child('accelerators'),
+			Meta.KeyBindingFlags.IGNORE_AUTOREPEAT,
+			Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW | Shell.ActionMode.POPUP,
+			() => toggle(i),
+		);
+	}
+
+
+
 }
 
 function disable() {
-	Main.wm.removeKeybinding('quake-mode-hotkey');
-
-	if ( settings ) {
-		settings.run_dispose();
-		settings = undefined;
+	for (let i = 1; i <= APPS_COUNT; i++) {
+		main.wm.removeKeybinding(`quake-mode-accelerator-${i}`);
 	}
 
 	if ( indicator ) {
@@ -49,24 +71,33 @@ function disable() {
 		indicator = undefined;
 	}
 
-	if (app && Main.sessionMode.currentMode !== 'unlock-dialog') {
-		app.destroy();
-		app = undefined;
+	if (main.sessionMode.currentMode !== 'unlock-dialog' ) {
+		apps.forEach(app  => app && app.destroy());
+		apps.clear();
 	}
+
+	if (settings) {
+		settings.run_dispose();
+		settings = undefined;
+	}
+
+	setupOverview(false);
 }
 
-function app_id() {
-	return settings.get_string('quake-mode-app');
+function app_id (i) {
+	return settings.get_child('apps').get_string(`app-${i}`);
 }
-
-async function toggle() {
+async function toggle(i) {
 	try {
-		if ( !app || app.state === state.DEAD)
-			app = new QuakeModeApp(app_id());
+		let app = apps.get(i);
+		if ( !app || app.state === state.DEAD) {
+			app = new QuakeModeApp(app_id(i));
+			apps.set(i, app);
+		}
 
 		await app.toggle();
 	} catch ( e ) {
-		Main.notify('Quake-mode', e.message);
+		main.notify('Quake-mode', e.message);
 	}
 }
 
@@ -77,7 +108,25 @@ function setTray(show) {
 	}
 
 	if ( show ) {
-		indicator = new Indicator({ IndicatorName, toggle });
-		Main.panel.addToStatusArea(IndicatorName, indicator.panelButton);
+		indicator = new Indicator({ IndicatorName, toggle: () => toggle(1) });
+		main.panel.addToStatusArea(IndicatorName, indicator.panelButton);
+	}
+}
+
+function setupOverview(hide) {
+	if (hide) {
+		const has = window => [...apps.values()].some(app => app.win === window);
+		Workspace.prototype._isOverviewWindow = window => {
+			const show = _isOverviewWindow(window);
+			return show && !has(window);
+		};
+
+		altTab.getWindows = workspace => {
+			const windows = getWindows(workspace);
+			return windows.filter(window => !has(window));
+		};
+	} else {
+		Workspace.prototype._isOverviewWindow = _isOverviewWindow;
+		altTab.getWindows = getWindows;
 	}
 }

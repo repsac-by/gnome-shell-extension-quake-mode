@@ -3,10 +3,6 @@
 /* exported QuakeModeApp, state */
 
 const { Clutter, GLib, Shell } = imports.gi;
-const { Workspace } = imports.ui.workspace;
-const { _isOverviewWindow } = Workspace.prototype;
-const { altTab } = imports.ui;
-const { getWindows } = altTab;
 
 const Main = imports.ui.main;
 
@@ -35,7 +31,6 @@ var QuakeModeApp = class {
 		}
 
 		const place = () => this.place();
-		const setupOverview = () => this.setupOverview(this.hideFromOverview);
 		const setupAlwaysOnTop = () => this.setupAlwaysOnTop(this.alwaysOnTop);
 
 		const settings = this.settings = getSettings();
@@ -45,7 +40,6 @@ var QuakeModeApp = class {
 		settings.connect('changed::quake-mode-halign',  place);
 		settings.connect('changed::quake-mode-valign',  place);
 		settings.connect('changed::quake-mode-monitor', place);
-		settings.connect('changed::quake-mode-hide-from-overview', setupOverview);
 		settings.connect('changed::quake-mode-always-on-top', setupAlwaysOnTop);
 
 		this.state = state.READY;
@@ -53,9 +47,6 @@ var QuakeModeApp = class {
 
 	destroy() {
 		this.state = state.DEAD;
-
-		if (this.hideFromOverview)
-			this.setupOverview(false);
 
 		if ( this.settings ) {
 			this.settings.run_dispose();
@@ -96,8 +87,6 @@ var QuakeModeApp = class {
 	get focusout() { return this.settings.get_boolean('quake-mode-focusout'); }
 
 	get ainmation_time() { return this.settings.get_double('quake-mode-animation-time') * 1000; }
-
-	get hideFromOverview () { return this.settings.get_boolean('quake-mode-hide-from-overview'); }
 
 	get alwaysOnTop () { return this.settings.get_boolean( 'quake-mode-always-on-top' ); }
 
@@ -165,9 +154,6 @@ var QuakeModeApp = class {
 					return reject(`app '${this.app.id}' is launched but no windows`);
 
 				this.win = app.get_windows()[0];
-
-				if (this.hideFromOverview)
-					this.setupOverview(true);
 
 				this.setupAlwaysOnTop(this.alwaysOnTop);
 
@@ -272,23 +258,6 @@ var QuakeModeApp = class {
 
 		win.move_to_monitor(monitor);
 		win.move_resize_frame(false, x, y, w, h);
-	}
-
-	setupOverview(hide) {
-		if (hide) {
-			Workspace.prototype._isOverviewWindow = window => {
-				const show = _isOverviewWindow(window);
-				return show && window !== this.win;
-			};
-
-			altTab.getWindows = workspace => {
-				const windows = getWindows(workspace);
-				return windows.filter(window => window !== this.win);
-			};
-		} else {
-			Workspace.prototype._isOverviewWindow = _isOverviewWindow;
-			altTab.getWindows = getWindows;
-		}
 	}
 
 	setupAlwaysOnTop(above) {
