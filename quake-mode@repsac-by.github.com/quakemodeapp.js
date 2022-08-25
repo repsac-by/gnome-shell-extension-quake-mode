@@ -168,24 +168,15 @@ var QuakeModeApp = class {
 		const { win, actor } = this;
 
 		actor.set_clip(0, 0, actor.width, 0);
-		win.stick();
+		global.window_manager.emit('kill-window-effects', actor);
+		once(win, 'size-changed')
+			.then( () => {
+				this.state = state.RUNNING;
+				actor.remove_clip();
+				this.show();
+			} );
 
-		on(global.window_manager, 'map', (sig, wm, metaWindowActor) => {
-			if ( metaWindowActor !== actor )
-				return;
-
-			sig.off();
-			wm.emit('kill-window-effects', actor);
-
-			once(win, 'size-changed')
-				.then( () => {
-					this.state = state.RUNNING;
-					actor.remove_clip();
-					this.show();
-				} );
-
-			this.place();
-		});
+		this.place();
 	}
 
 	show() {
