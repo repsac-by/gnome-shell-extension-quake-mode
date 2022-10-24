@@ -1,0 +1,21 @@
+{
+	"compilerOptions": {
+		"allowJs": true,
+		"checkJs": true,
+		"strict": true,
+		"downlevelIteration": true,
+		"noEmit": true,
+		"module": "Node16",
+		"skipLibCheck": true,
+		"lib": [
+			"ES2020",
+		],
+		"types": [
+			"@gi-types/gjs-environment",
+		],
+	},
+
+	"exclude": [
+		"node_modules/**/*"
+	]
+}

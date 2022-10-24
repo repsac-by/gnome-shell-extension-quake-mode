@@ -1,6 +1,11 @@
 'use strict';
 
 /* exported Indicator */
+/**
+ *  @typedef {{
+ *     Indicator: typeof Indicator
+ * }} types
+ */
 
 const St = imports.gi.St;
 const PanelMenu = imports.ui.panelMenu;
@@ -13,6 +18,9 @@ const Me = getCurrentExtension();
 const { getMonitors } = Me.imports.util;
 
 var Indicator = class {
+	/**
+	 * @param {{ IndicatorName: string, toggle(): void }} opts
+	 */
 	constructor ({ IndicatorName, toggle }) {
 		initTranslations();
 		this.settings = getSettings();
@@ -43,6 +51,10 @@ var Indicator = class {
 		return settingsItem;
 	}
 
+	/**
+	 * @param {any} obj
+	 * @param {any} evt
+	 */
 	onClick (obj, evt) {
 		if (evt.get_button() === Clutter.BUTTON_PRIMARY) {
 			this.panelButton.menu.close();
@@ -59,10 +71,11 @@ var Indicator = class {
 
 		const monitors = getMonitors();
 
-		for (const [idx, monitor] of monitors.entries()) {
+		for (const [ idx, monitor ] of monitors.entries()) {
 			const menuItem = new PopupMenu.PopupMenuItem(
-				`#${idx}: ${monitor.manufacturer} ${monitor.model}`
+				`#${idx}: ${monitor.manufacturer || ''} ${monitor.model}`
 			);
+
 			if (idx === this.settings.get_int('quake-mode-monitor')) {
 				menuItem.setOrnament(PopupMenu.Ornament.CHECK);
 			} else {

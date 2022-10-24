@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 09:51+0300\n"
+"POT-Creation-Date: 2022-10-24 20:44+0300\n"
 "PO-Revision-Date: 2021-04-10 18:06+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,58 +18,90 @@ msgstr ""
 "X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: prefs.js:42
+#: quake-mode@repsac-by.github.com/prefs.js:44
 msgid "Icon"
 msgstr "Icône"
 
-#: prefs.js:50
+#: quake-mode@repsac-by.github.com/prefs.js:52
 msgid "Minimize on focus out"
 msgstr "Minimiser à la perte de focus"
 
-#: prefs.js:58
+#: quake-mode@repsac-by.github.com/prefs.js:60
 msgid "Hide from Overview"
 msgstr ""
 
-#: prefs.js:68
+#: quake-mode@repsac-by.github.com/prefs.js:68
+msgid "Always on Top"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:78
 msgid "Width - %"
 msgstr "Largeur - %"
 
-#: prefs.js:78
+#: quake-mode@repsac-by.github.com/prefs.js:88
 msgid "Height - %"
 msgstr "Hauteur - %"
 
-#: prefs.js:122
+#: quake-mode@repsac-by.github.com/prefs.js:95
+msgid "Left"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:96
+msgid "Right"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:97
+msgid "Center"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:126
+msgid "Horizontal align"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:134
+msgid "Top"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:135
+msgid "Bottom"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:164
+msgid "Vertical align"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:210
 msgid "Monitor"
 msgstr "Moniteur"
 
-#: prefs.js:132
+#: quake-mode@repsac-by.github.com/prefs.js:220
 msgid "Animation time - s"
 msgstr "Durée de l'animation - s"
 
-#: prefs.js:154 prefs.js:260
-msgid "Application"
-msgstr "Application"
-
-#: prefs.js:217
+#: quake-mode@repsac-by.github.com/prefs.js:242
 msgid "Toggle"
 msgstr "Basculer"
 
-#: prefs.js:223
+#: quake-mode@repsac-by.github.com/prefs.js:254
 msgid "Action"
 msgstr "Action"
 
-#: prefs.js:226
+#: quake-mode@repsac-by.github.com/prefs.js:259
 msgid "Shortcut Key"
 msgstr "Touche de raccourci"
 
-#: prefs.js:259
+#: quake-mode@repsac-by.github.com/prefs.js:264
+msgid "Application"
+msgstr "Application"
+
+#: quake-mode@repsac-by.github.com/prefs.js:355
 msgid "Main"
 msgstr "Général"
 
-#: prefs.js:261
+#: quake-mode@repsac-by.github.com/prefs.js:356
 msgid "Accelerators"
 msgstr "Raccourcis"
 
-#: indicator.js:40
+#: quake-mode@repsac-by.github.com/indicator.js:48
 msgid "Settings"
 msgstr ""

@@ -9,65 +9,97 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 09:51+0300\n"
+"POT-Creation-Date: 2022-10-24 20:44+0300\n"
 "Last-Translator: Muhammed Taha <mtaha1905@yandex.com>\n"
 "Language: Turkish \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: prefs.js:42
+#: quake-mode@repsac-by.github.com/prefs.js:44
 msgid "Icon"
 msgstr "kon"
 
-#: prefs.js:50
+#: quake-mode@repsac-by.github.com/prefs.js:52
 msgid "Minimize on focus out"
 msgstr "Baka bir yere odaklanldnda terminali klt"
 
-#: prefs.js:58
+#: quake-mode@repsac-by.github.com/prefs.js:60
 msgid "Hide from Overview"
 msgstr ""
 
-#: prefs.js:68
+#: quake-mode@repsac-by.github.com/prefs.js:68
+msgid "Always on Top"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:78
 msgid "Width - %"
 msgstr "Genilik (yzde - %)"
 
-#: prefs.js:78
+#: quake-mode@repsac-by.github.com/prefs.js:88
 msgid "Height - %"
 msgstr "Ykseklik (yzde - %)"
 
-#: prefs.js:122
+#: quake-mode@repsac-by.github.com/prefs.js:95
+msgid "Left"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:96
+msgid "Right"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:97
+msgid "Center"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:126
+msgid "Horizontal align"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:134
+msgid "Top"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:135
+msgid "Bottom"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:164
+msgid "Vertical align"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:210
 msgid "Monitor"
 msgstr "Monitr"
 
-#: prefs.js:132
+#: quake-mode@repsac-by.github.com/prefs.js:220
 msgid "Animation time - s"
 msgstr "Animasyon sresi (saniye - s)"
 
-#: prefs.js:154 prefs.js:260
-msgid "Application"
-msgstr "Uygulama"
-
-#: prefs.js:217
+#: quake-mode@repsac-by.github.com/prefs.js:242
 msgid "Toggle"
 msgstr "Kapat/A"
 
-#: prefs.js:223
+#: quake-mode@repsac-by.github.com/prefs.js:254
 msgid "Action"
 msgstr "Eylem"
 
-#: prefs.js:226
+#: quake-mode@repsac-by.github.com/prefs.js:259
 msgid "Shortcut Key"
 msgstr "Ksayol Tuu"
 
-#: prefs.js:259
+#: quake-mode@repsac-by.github.com/prefs.js:264
+msgid "Application"
+msgstr "Uygulama"
+
+#: quake-mode@repsac-by.github.com/prefs.js:355
 msgid "Main"
 msgstr "Ana"
 
-#: prefs.js:261
+#: quake-mode@repsac-by.github.com/prefs.js:356
 msgid "Accelerators"
 msgstr "Ksayollar"
 
-#: indicator.js:40
+#: quake-mode@repsac-by.github.com/indicator.js:48
 msgid "Settings"
 msgstr ""

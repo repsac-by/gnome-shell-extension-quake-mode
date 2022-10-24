@@ -9,7 +9,7 @@ const Me = getCurrentExtension();
 
 const { getMonitors } = Me.imports.util;
 
-/** @type {typeof Gio.Settings} */
+/** @type {ReturnType<typeof getSettings>} */
 let settings;
 
 function init() {
@@ -19,6 +19,9 @@ function init() {
 
 const QuakeModePrefsWidget
 = GObject.registerClass(class QuakeModePrefsWidget extends Gtk.Grid {
+	/**
+	 * @param {any} [params]
+	 */
 	_init(params) {
 		super._init(params);
 		this.set_margin_top(10);
@@ -30,7 +33,8 @@ const QuakeModePrefsWidget
 		this.set_orientation(Gtk.Orientation.VERTICAL);
 
 		let r = -1;
-		const label = label => new Gtk.Label({ label: label, halign: Gtk.Align.END});
+		/** @param {string} label */
+		const label = label => new Gtk.Label({ label: label, halign: Gtk.Align.END });
 
 		// Tray Icon
 		const switchTray = new Gtk.Switch({ halign: Gtk.Align.START });
@@ -57,12 +61,12 @@ const QuakeModePrefsWidget
 		this.attach(hideFromOverview, 1, r, 1, 1);
 
 		// Always on top
-		const alwaysOnTop = new Gtk.Switch( { halign: Gtk.Align.START } );
+		const alwaysOnTop = new Gtk.Switch({ halign: Gtk.Align.START });
 
-		settings.bind( 'quake-mode-always-on-top', alwaysOnTop, 'state', Gio.SettingsBindFlags.DEFAULT );
+		settings.bind('quake-mode-always-on-top', alwaysOnTop, 'state', Gio.SettingsBindFlags.DEFAULT);
 
-		this.attach( label( _( 'Always on Top' ) ), 0, ++r, 1, 1 );
-		this.attach( alwaysOnTop, 1, r, 1, 1 );
+		this.attach(label(_('Always on Top')), 0, ++r, 1, 1);
+		this.attach(alwaysOnTop, 1, r, 1, 1);
 
 		// Width
 		const spinWidth = new Gtk.SpinButton();
@@ -94,18 +98,19 @@ const QuakeModePrefsWidget
 			];
 
 			const model = new Gtk.ListStore();
-			model.set_column_types( [ GObject.TYPE_STRING, GObject.TYPE_STRING ] );
+			model.set_column_types([ GObject.TYPE_STRING, GObject.TYPE_STRING ]);
 
-			const widget = new Gtk.ComboBox( { model } );
+			const widget = new Gtk.ComboBox({ model });
 			const renderer = new Gtk.CellRendererText();
 
-			widget.pack_start( renderer, true );
-			widget.add_attribute( renderer, 'text', 0 );
+			widget.pack_start(renderer, true);
+			widget.add_attribute(renderer, 'text', 0);
 
 			const current = settings.get_string(key);
 
 			for (const { label, value } of items) {
 				const iter = model.append();
+				//@ts-expect-error
 				model.set(iter, [ 0, 1 ], [ label, value ]);
 				if (current === value) widget.set_active_iter(iter);
 			}
@@ -113,57 +118,58 @@ const QuakeModePrefsWidget
 			widget.connect('changed', widget => {
 				const [ ok, iter ] = widget.get_active_iter();
 				if (ok) {
-					const value = model.get_value(iter, 1 );
+					const value = /** @type {string} */ (model.get_value(iter, 1));
 					settings.set_string(key, value);
 				}
 			});
 
-			this.attach( label(_('Horizontal align')), 0, ++r, 1, 1 );
-			this.attach( widget, 1, r, 1, 1 );
+			this.attach(label(_('Horizontal align')), 0, ++r, 1, 1);
+			this.attach(widget, 1, r, 1, 1);
 		}
 
 		// Vertical align
 		{
 			const key = 'quake-mode-valign';
 			const items = [
-				{ label: _( 'Top' ), value: 'top' },
-				{ label: _( 'Bottom' ), value: 'bottom' },
+				{ label: _('Top'), value: 'top' },
+				{ label: _('Bottom'), value: 'bottom' },
 			];
 
 			const model = new Gtk.ListStore();
-			model.set_column_types( [ GObject.TYPE_STRING, GObject.TYPE_STRING ] );
+			model.set_column_types([ GObject.TYPE_STRING, GObject.TYPE_STRING ]);
 
-			const widget = new Gtk.ComboBox( { model } );
+			const widget = new Gtk.ComboBox({ model });
 			const renderer = new Gtk.CellRendererText();
 
-			widget.pack_start( renderer, true );
-			widget.add_attribute( renderer, 'text', 0 );
+			widget.pack_start(renderer, true);
+			widget.add_attribute(renderer, 'text', 0);
 
-			const current = settings.get_string( key );
+			const current = settings.get_string(key);
 
-			for ( const { label, value } of items ) {
+			for (const { label, value } of items) {
 				const iter = model.append();
-				model.set( iter, [ 0, 1 ], [ label, value ] );
-				if ( current === value ) widget.set_active_iter(iter);
+				//@ts-expect-error
+				model.set(iter, [ 0, 1 ], [ label, value ]);
+				if (current === value) widget.set_active_iter(iter);
 			}
 
-			widget.connect( 'changed', widget => {
+			widget.connect('changed', widget => {
 				const [ ok, iter ] = widget.get_active_iter();
-				if ( ok ) {
-					const value = model.get_value(iter, 1);
+				if (ok) {
+					const value = /** @type {string} */ (model.get_value(iter, 1));
 					settings.set_string(key, value);
 				}
-			} );
+			});
 
-			this.attach( label( _( 'Vertical align' ) ), 0, ++r, 1, 1 );
-			this.attach( widget, 1, r, 1, 1 );
+			this.attach(label(_('Vertical align')), 0, ++r, 1, 1);
+			this.attach(widget, 1, r, 1, 1);
 		}
 
 		// Monitor Number
-		const Columns = {LABEL: 0, VALUE: 1};
+		const Columns = { LABEL: 0, VALUE: 1 };
 		const monitorModel = new Gtk.ListStore();
-		monitorModel.set_column_types([GObject.TYPE_STRING, GObject.TYPE_INT]);
-		const selectMonitor = new Gtk.ComboBox({model: monitorModel});
+		monitorModel.set_column_types([ GObject.TYPE_STRING, GObject.TYPE_INT ]);
+		const selectMonitor = new Gtk.ComboBox({ model: monitorModel });
 		const selectMonitorRenderer = new Gtk.CellRendererText();
 		selectMonitor.pack_start(selectMonitorRenderer, true);
 		selectMonitor.add_attribute(selectMonitorRenderer, 'text', 0);
@@ -171,13 +177,14 @@ const QuakeModePrefsWidget
 		const monitors = getMonitors();
 		let monitorCurrentlySelected;
 
-		for (const [idx, monitor] of monitors.entries()) {
+		for (const [ idx, monitor ] of monitors.entries()) {
 			const iter = monitorModel.append();
 
 			monitorModel.set(
+				//@ts-expect-error
 				iter,
-				[Columns.LABEL, Columns.VALUE],
-				[`#${idx}: ${monitor.manufacturer} ${monitor.model}`, idx]
+				[ Columns.LABEL, Columns.VALUE ],
+				[ `#${idx}: ${monitor.manufacturer} ${monitor.model}`, idx ]
 			);
 
 			if (idx === settings.get_int('quake-mode-monitor')) {
@@ -190,13 +197,13 @@ const QuakeModePrefsWidget
 		}
 
 		selectMonitor.connect('changed', () => {
-			const [success, iter] = selectMonitor.get_active_iter();
+			const [ success, iter ] = selectMonitor.get_active_iter();
 
 			if (!success) {
 				return;
 			}
 
-			const value = monitorModel.get_value(iter, Columns.VALUE);
+			const value = /** @type {number} */ (monitorModel.get_value(iter, Columns.VALUE));
 			settings.set_int('quake-mode-monitor', value);
 		});
 
@@ -217,6 +224,7 @@ const QuakeModePrefsWidget
 
 const AcceleratorsWidget
 = GObject.registerClass(class AcceleratorsWidget extends Gtk.TreeView {
+	/** @param {any} [params] */
 	_init(params) {
 		super._init(params);
 
@@ -229,8 +237,9 @@ const AcceleratorsWidget
 			GObject.TYPE_INT,
 		]);
 
+		/** @type {(row: [any, string, number]) => void}} */
 		function add_row([ accelerator, app_id, i ]) {
-			model.set(model.append(), [0, 1, 2, 3], [ _('Toggle'), accelerator, app_id, i ]);
+			model.set(model.append(), [ 0, 1, 2, 3 ], [ _('Toggle'), accelerator, app_id, i ]);
 		}
 
 		for (let i = 1; i <=5; i++) {
@@ -242,57 +251,63 @@ const AcceleratorsWidget
 		}
 
 		const actions = {
-			column: new Gtk.TreeViewColumn( { title: _( 'Action' ), expand: true } ),
+			column: new Gtk.TreeViewColumn({ title: _('Action'), expand: true }),
 			renderer: new Gtk.CellRendererText(),
 		};
 
 		const accels = {
-			column: new Gtk.TreeViewColumn( { title: _( 'Shortcut Key' ), min_width: 100 } ),
-			renderer: new Gtk.CellRendererAccel( { editable: true } ),
+			column: new Gtk.TreeViewColumn({ title: _('Shortcut Key'), min_width: 100 }),
+			renderer: new Gtk.CellRendererAccel({ editable: true }),
 		};
 
 		const apps = {
-			column: new Gtk.TreeViewColumn( { title: _( 'Application' ), min_width: 150 } ),
-			renderer: new Gtk.CellRendererText( { editable: true } ),
+			column: new Gtk.TreeViewColumn({ title: _('Application'), min_width: 150 }),
+			renderer: new Gtk.CellRendererText({ editable: true }),
 		};
 
 		actions.column.pack_start(actions.renderer, true);
 		accels.column.pack_start(accels.renderer, true);
-		apps.column.pack_start(apps.renderer, true );
+		apps.column.pack_start(apps.renderer, true);
 
 		actions.column.set_cell_data_func(actions.renderer, (column, cell, model, iter) => {
+			// @ts-expect-error
 			cell.text = model.get_value(iter, Columns.action);
 		});
 
 		accels.column.set_cell_data_func(accels.renderer, (column, cell, model, iter) => {
-			[ , cell.accel_key, cell.accel_mods ] = Gtk.accelerator_parse(model.get_value(iter, Columns.accel));
+			const accelerator = /** @type {string}*/ (model.get_value(iter, Columns.accel));
+			// @ts-expect-error
+			[ , cell.accel_key, cell.accel_mods ] = Gtk.accelerator_parse(accelerator);
 		});
 
-		apps.column.set_cell_data_func(apps.renderer, ( column, cell, model, iter ) => {
-			const app_id = model.get_value(iter, Columns.app_id);
+		apps.column.set_cell_data_func(apps.renderer, (column, cell, model, iter) => {
+			const app_id = /** @type {string} */ (model.get_value(iter, Columns.app_id));
 			const app = app_id && Gio.DesktopAppInfo.new(app_id);
+			// @ts-expect-error
 			cell.text = app ? app.get_display_name() : '';
 		});
 
-		this.append_column( actions.column );
-		this.append_column( accels.column );
-		this.append_column( apps.column );
+		this.append_column(actions.column);
+		this.append_column(accels.column);
+		this.append_column(apps.column);
 
 		accels.renderer.connect('accel-edited', (renderer, path, accel_key, accel_mod) => {
-			const [ ok, iter ] = model.get_iter( Gtk.TreePath.new_from_string( path ) );
-			if ( ok ) {
-				const name = Gtk.accelerator_name( accel_key, accel_mod );
-				model.set(iter, [Columns.accel], [name]);
+			const [ ok, iter ] = model.get_iter(Gtk.TreePath.new_from_string(path));
+			if (ok) {
+				const name = Gtk.accelerator_name(accel_key, accel_mod);
+				//@ts-expect-error
+				model.set(iter, [ Columns.accel ], [ name ]);
 
 				const i = model.get_value(iter, Columns.i);
-				settings.get_child('accelerators').set_strv(`quake-mode-accelerator-${i}`, [name]);
+				settings.get_child('accelerators').set_strv(`quake-mode-accelerator-${i}`, [ name ]);
 			}
 		});
 
 		accels.renderer.connect('accel-cleared', (renderer, path) => {
-			const [ok, iter] = model.get_iter(Gtk.TreePath.new_from_string(path));
+			const [ ok, iter ] = model.get_iter(Gtk.TreePath.new_from_string(path));
 			if (ok) {
-				model.set(iter, [Columns.accel], ['']);
+				//@ts-expect-error
+				model.set(iter, [ Columns.accel ], [ '' ]);
 				const i = model.get_value(iter, Columns.i);
 				settings.get_child('accelerators').reset(`quake-mode-accelerator-${i}`);
 			}
@@ -302,21 +317,27 @@ const AcceleratorsWidget
 			const dialog = new Gtk.AppChooserDialog({
 				destroy_with_parent: true,
 				modal: true,
+				//@ts-expect-error
 				transient_for: this.get_root(),
 			});
 
 			dialog.get_widget().set({ show_all: false, show_other: true });
 
-			dialog.connect('response', ( dialog, response ) => {
-				if ( response === Gtk.ResponseType.OK ) {
-					const [ ok, iter ] = model.get_iter( Gtk.TreePath.new_from_string( path ) );
-					if ( ok ) {
-						const app_id = dialog.get_app_info().get_id();
-						model.set_value( iter, Columns.app_id, app_id);
+			dialog.connect('response', (dialog, response) => {
+				if (response === Gtk.ResponseType.OK) {
+					const [ ok, iter ] = model.get_iter(Gtk.TreePath.new_from_string(path));
+					if (!ok) return;
 
-						const i = model.get_value(iter, Columns.i);
-						settings.get_child('apps').set_string(`app-${i}`, app_id);
-					}
+					const app_info = dialog.get_app_info();
+					if (!app_info) return;
+
+					const app_id = app_info.get_id();
+					if (!app_id) return;
+
+					model.set_value(iter, Columns.app_id, app_id);
+
+					const i = model.get_value(iter, Columns.i);
+					settings.get_child('apps').set_string(`app-${i}`, app_id);
 				}
 				dialog.destroy();
 			});
@@ -328,10 +349,11 @@ const AcceleratorsWidget
 
 const Notebook
 = GObject.registerClass(class Notebook extends Gtk.Notebook {
+	/** @param {any} [params] */
 	_init(params) {
 		super._init(params);
-		this.append_page(new QuakeModePrefsWidget, new Gtk.Label({ label: _('Main') }));
-		this.append_page(new AcceleratorsWidget,   new Gtk.Label({ label: _('Accelerators') }));
+		this.append_page(new QuakeModePrefsWidget(), new Gtk.Label({ label: _('Main') }));
+		this.append_page(new AcceleratorsWidget(),   new Gtk.Label({ label: _('Accelerators') }));
 	}
 });
 

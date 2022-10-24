@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 09:51+0300\n"
+"POT-Creation-Date: 2022-10-24 20:44+0300\n"
 "PO-Revision-Date: 2018-03-22 23:24+0300\n"
 "Last-Translator:  <repsac@surefire>\n"
 "Language-Team: Russian\n"
@@ -16,62 +16,94 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: prefs.js:42
+#: quake-mode@repsac-by.github.com/prefs.js:44
 msgid "Icon"
 msgstr "Иконка"
 
-#: prefs.js:50
+#: quake-mode@repsac-by.github.com/prefs.js:52
 msgid "Minimize on focus out"
 msgstr "Сворачивать при потере фокуса"
 
-#: prefs.js:58
+#: quake-mode@repsac-by.github.com/prefs.js:60
 msgid "Hide from Overview"
 msgstr ""
 
-#: prefs.js:68
+#: quake-mode@repsac-by.github.com/prefs.js:68
+msgid "Always on Top"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:78
 msgid "Width - %"
 msgstr "Ширина в %"
 
-#: prefs.js:78
+#: quake-mode@repsac-by.github.com/prefs.js:88
 msgid "Height - %"
 msgstr "Высота в %"
 
-#: prefs.js:122
+#: quake-mode@repsac-by.github.com/prefs.js:95
+msgid "Left"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:96
+msgid "Right"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:97
+msgid "Center"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:126
+msgid "Horizontal align"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:134
+msgid "Top"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:135
+msgid "Bottom"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:164
+msgid "Vertical align"
+msgstr ""
+
+#: quake-mode@repsac-by.github.com/prefs.js:210
 msgid "Monitor"
 msgstr "Монитор"
 
-#: prefs.js:132
+#: quake-mode@repsac-by.github.com/prefs.js:220
 msgid "Animation time - s"
 msgstr "Время анимации в с."
 
-#: prefs.js:154 prefs.js:260
-msgid "Application"
-msgstr "Приложение"
-
-#: prefs.js:217
+#: quake-mode@repsac-by.github.com/prefs.js:242
 msgid "Toggle"
 msgstr "Рычаг"
 
-#: prefs.js:223
+#: quake-mode@repsac-by.github.com/prefs.js:254
 #, fuzzy
 msgid "Action"
 msgstr "Действие"
 
-#: prefs.js:226
+#: quake-mode@repsac-by.github.com/prefs.js:259
 msgid "Shortcut Key"
 msgstr "Комбинация клавиш"
 
-#: prefs.js:259
+#: quake-mode@repsac-by.github.com/prefs.js:264
+msgid "Application"
+msgstr "Приложение"
+
+#: quake-mode@repsac-by.github.com/prefs.js:355
 msgid "Main"
 msgstr "Главная"
 
-#: prefs.js:261
+#: quake-mode@repsac-by.github.com/prefs.js:356
 msgid "Accelerators"
 msgstr "Ускорители"
 
-#: indicator.js:40
+#: quake-mode@repsac-by.github.com/indicator.js:48
 msgid "Settings"
 msgstr "Настройки"

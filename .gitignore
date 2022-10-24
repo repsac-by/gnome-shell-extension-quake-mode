@@ -1,0 +1,5 @@
+.vscode/
+locale/
+*.po~
+*.pot~
+gschemas.compiled

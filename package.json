@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "quake-mode",
+  "version": "0.0.8",
+  "description": "It's a GNOME Shell extension adds support quake-mode for any application",
+  "main": "extension.js",
+  "scripts": {
+    "check": "eslint quake-mode@repsac-by.github.com && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "repsac-by",
+  "license": "MIT",
+  "devDependencies": {
+    "@gi-types/gdk4": "^4.0.1",
+    "@gi-types/gjs-environment": "^1.1.0",
+    "@gi-types/shell0": "^0.1.1",
+    "eslint": "^8.26.0",
+    "typescript": "^4.8.4"
+  }
+}
