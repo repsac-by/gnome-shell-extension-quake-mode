@@ -121,7 +121,8 @@ function setTray(show) {
 
 function setupOverview(hide) {
 	if (hide) {
-		const has = window => [...apps.values()].some(app => app.win === window);
+		const has = window => Array.from(quakeModeApps.values()).reduce((result, item) => [...result, ...Array.from(item.values())], []).some(app => app.win === window);
+
 		Workspace.prototype._isOverviewWindow = window => {
 			const show = _isOverviewWindow(window);
 			return show && !has(window);
