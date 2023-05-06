@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-24 20:44+0300\n"
-"PO-Revision-Date: 2020-10-26 13:51+0100\n"
-"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"PO-Revision-Date: 2023-05-06 13:40+0200\n"
+"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: quake-mode@repsac-by.github.com/prefs.js:44
 msgid "Icon"
@@ -24,15 +24,15 @@ msgstr "Pictogram"
 
 #: quake-mode@repsac-by.github.com/prefs.js:52
 msgid "Minimize on focus out"
-msgstr "Minimaliseren na verlies van focus"
+msgstr "Minimaliseren na verliezen van focus"
 
 #: quake-mode@repsac-by.github.com/prefs.js:60
 msgid "Hide from Overview"
-msgstr ""
+msgstr "Verbergen op overzicht"
 
 #: quake-mode@repsac-by.github.com/prefs.js:68
 msgid "Always on Top"
-msgstr ""
+msgstr "Altijd bovenaan"
 
 #: quake-mode@repsac-by.github.com/prefs.js:78
 msgid "Width - %"
@@ -44,31 +44,31 @@ msgstr "Hoogte (in %)"
 
 #: quake-mode@repsac-by.github.com/prefs.js:95
 msgid "Left"
-msgstr ""
+msgstr "Links"
 
 #: quake-mode@repsac-by.github.com/prefs.js:96
 msgid "Right"
-msgstr ""
+msgstr "Rechts"
 
 #: quake-mode@repsac-by.github.com/prefs.js:97
 msgid "Center"
-msgstr ""
+msgstr "Centreren"
 
 #: quake-mode@repsac-by.github.com/prefs.js:126
 msgid "Horizontal align"
-msgstr ""
+msgstr "Horizontale uitlijning"
 
 #: quake-mode@repsac-by.github.com/prefs.js:134
 msgid "Top"
-msgstr ""
+msgstr "Bovenaan"
 
 #: quake-mode@repsac-by.github.com/prefs.js:135
 msgid "Bottom"
-msgstr ""
+msgstr "Onderaan"
 
 #: quake-mode@repsac-by.github.com/prefs.js:164
 msgid "Vertical align"
-msgstr ""
+msgstr "Verticale uitlijning"
 
 #: quake-mode@repsac-by.github.com/prefs.js:210
 msgid "Monitor"
@@ -104,4 +104,4 @@ msgstr "Sneltoetsen"
 
 #: quake-mode@repsac-by.github.com/indicator.js:48
 msgid "Settings"
-msgstr ""
+msgstr "Voorkeuren"
