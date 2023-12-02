@@ -123,6 +123,26 @@ const QuakeModePrefsWidget = GObject.registerClass(
       this.attach(label(_("Height - %")), 0, ++r, 1, 1);
       this.attach(spinHeight, 1, r, 1, 1);
 
+      // Gap
+      const spinGap = new Gtk.SpinButton({
+        adjustment: new Gtk.Adjustment({
+          lower: 0,
+          upper: 1000,
+          step_increment: 1,
+          page_increment: 5,
+        }),
+      });
+
+      settings.bind(
+        "quake-mode-gap",
+        spinGap,
+        "value",
+        Gio.SettingsBindFlags.DEFAULT,
+      );
+
+      this.attach(label(_("Gap")), 0, ++r, 1, 1);
+      this.attach(spinGap, 1, r, 1, 1);
+
       // Horizontal align
       {
         const key = "quake-mode-halign";

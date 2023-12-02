@@ -43,6 +43,7 @@ export var QuakeModeApp = class {
 
     settings.connect("changed::quake-mode-width", place);
     settings.connect("changed::quake-mode-height", place);
+    settings.connect("changed::quake-mode-gap", place);
     settings.connect("changed::quake-mode-halign", place);
     settings.connect("changed::quake-mode-valign", place);
     settings.connect("changed::quake-mode-monitor", place);
@@ -92,6 +93,10 @@ export var QuakeModeApp = class {
     return this.settings.get_int("quake-mode-height");
   }
 
+  get gap() {
+    return this.settings.get_int("quake-mode-gap");
+  }
+
   get focusout() {
     return this.settings.get_boolean("quake-mode-focusout");
   }
@@ -105,7 +110,9 @@ export var QuakeModeApp = class {
   }
 
   get halign() {
-    return this.settings.get_enum("quake-mode-halign");
+    return /** @type {"left" | "center" | "right"} */ (
+      this.settings.get_string("quake-mode-halign")
+    );
   }
 
   get valign() {
@@ -265,15 +272,20 @@ export var QuakeModeApp = class {
   }
 
   place() {
-    const { win, width, height, halign, valign, monitor } = this;
+    const { win, width, height, gap, halign, valign, monitor } = this;
 
     if (!win) return;
 
     const area = win.get_work_area_for_monitor(monitor),
       w = Math.round((width * area.width) / 100),
       h = Math.round((height * area.height) / 100),
-      x = area.x + Math.round(halign && (area.width - w) / halign),
-      y = area.y + (valign === "top" ? 0 : area.height - height);
+      x =
+        area.x +
+        Math.round(
+          (area.width - w) * { left: 0, center: 0.5, right: 1 }[halign] +
+            { left: gap, center: 0, right: -gap }[halign],
+        ),
+      y = area.y + (valign === "top" ? gap : area.height - h - gap);
 
     win.move_to_monitor(monitor);
     win.move_resize_frame(false, x, y, w, h);

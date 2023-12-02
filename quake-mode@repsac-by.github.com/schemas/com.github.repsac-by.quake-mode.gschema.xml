@@ -55,6 +55,11 @@
 			<default>46</default>
 		</key>
 
+		<key name="quake-mode-gap" type="i">
+			<range min="0"/>
+			<default>10</default>
+		</key>
+
 		<key name="quake-mode-animation-time" type="d">
 			<range min="0.1" max="2"/>
 			<default>0.25</default>
