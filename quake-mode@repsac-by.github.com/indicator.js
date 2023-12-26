@@ -1,94 +1,93 @@
-'use strict';
+import Clutter from "gi://Clutter";
+import St from "gi://St";
+import {
+  Extension,
+  gettext as _,
+} from "resource:///org/gnome/shell/extensions/extension.js";
+import * as PanelMenu from "resource:///org/gnome/shell/ui/panelMenu.js";
+import * as PopupMenu from "resource:///org/gnome/shell/ui/popupMenu.js";
+import { getMonitors } from "./util.js";
 
-/* exported Indicator */
-/**
- *  @typedef {{
- *     Indicator: typeof Indicator
- * }} types
- */
+export var Indicator = class {
+  extension =
+    /** @type import('@girs/gnome-shell/extensions/extension').Extension */ (
+      Extension.lookupByURL(import.meta.url)
+    );
+  settings = this.extension.getSettings();
 
-const St = imports.gi.St;
-const PanelMenu = imports.ui.panelMenu;
-const PopupMenu = imports.ui.popupMenu;
-const Clutter = imports.gi.Clutter;
+  /**
+   * @param {{ IndicatorName: string, toggle(): void }} opts
+   */
+  constructor({ IndicatorName, toggle }) {
+    this.toggle = toggle;
 
-const { getCurrentExtension, getSettings, initTranslations, openPrefs, gettext: _ } = imports.misc.extensionUtils;
+    //@ts-expect-error
+    this.panelButton = new PanelMenu.Button(null, IndicatorName);
+    const icon = new St.Icon({
+      icon_name: "utilities-terminal-symbolic",
+      style_class: "system-status-icon",
+    });
+    this.panelButton.add_actor(icon);
 
-const Me = getCurrentExtension();
-const { getMonitors } = Me.imports.util;
+    this.panelButton.menu.addMenuItem(this.getSettingsItem());
 
-var Indicator = class {
-	/**
-	 * @param {{ IndicatorName: string, toggle(): void }} opts
-	 */
-	constructor ({ IndicatorName, toggle }) {
-		initTranslations();
-		this.settings = getSettings();
+    this.panelButton.connect("button-press-event", this.onClick.bind(this));
+    this.panelButton.connect("touch-event", this.onClick.bind(this));
+  }
 
-		this.toggle = toggle;
+  destroy() {
+    this.panelButton.destroy();
+  }
 
-		this.panelButton = new PanelMenu.Button(null, IndicatorName);
-		const icon = new St.Icon({
-			icon_name: 'utilities-terminal-symbolic',
-			style_class: 'system-status-icon'
-		});
-		this.panelButton.add_actor(icon);
+  getSettingsItem() {
+    const settingsItem = new PopupMenu.PopupMenuItem(_("Settings"));
+    settingsItem.connect("activate", () => {
+      this.extension.openPreferences();
+    });
 
-		this.panelButton.menu.addMenuItem(this.getSettingsItem());
+    return settingsItem;
+  }
 
-		this.panelButton.connect('button-press-event', this.onClick.bind(this));
-		this.panelButton.connect('touch-event', this.onClick.bind(this));
-	}
+  /**
+   * @param {any} obj
+   * @param {any} evt
+   */
+  onClick(obj, evt) {
+    if (evt.get_button() === Clutter.BUTTON_PRIMARY) {
+      //@ts-expect-error
+      this.panelButton.menu.close();
+      this.toggle();
+      return;
+    }
 
-	destroy () {
-		this.panelButton.destroy();
-	}
+    this.showMonitorMenu();
+  }
 
-	getSettingsItem () {
-		const settingsItem = new PopupMenu.PopupMenuItem(_('Settings'));
-		settingsItem.connect('activate', () => { openPrefs(); });
+  showMonitorMenu() {
+    const menu = this.panelButton.menu;
+    menu.removeAll();
 
-		return settingsItem;
-	}
+    const monitors = getMonitors();
 
-	/**
-	 * @param {any} obj
-	 * @param {any} evt
-	 */
-	onClick (obj, evt) {
-		if (evt.get_button() === Clutter.BUTTON_PRIMARY) {
-			this.panelButton.menu.close();
-			this.toggle();
-			return;
-		}
+    for (const [idx, monitor] of monitors.entries()) {
+      const menuItem = new PopupMenu.PopupMenuItem(
+        `#${idx}: ${monitor.manufacturer || ""} ${monitor.model}`,
+      );
 
-		this.showMonitorMenu();
-	}
-
-	showMonitorMenu () {
-		const menu = this.panelButton.menu;
-		menu.removeAll();
-
-		const monitors = getMonitors();
-
-		for (const [ idx, monitor ] of monitors.entries()) {
-			const menuItem = new PopupMenu.PopupMenuItem(
-				`#${idx}: ${monitor.manufacturer || ''} ${monitor.model}`
-			);
-
-			if (idx === this.settings.get_int('quake-mode-monitor')) {
-				menuItem.setOrnament(PopupMenu.Ornament.CHECK);
-			} else {
-				menuItem.setOrnament(PopupMenu.Ornament.NONE);
-			}
-			menuItem.connect("activate", () => {
-				this.settings.set_int('quake-mode-monitor', idx);
-			});
-			menu.addMenuItem(menuItem);
-		}
-		if (monitors.length > 0) {
-			menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
-		}
-		this.panelButton.menu.addMenuItem(this.getSettingsItem());
-	}
+      if (idx === this.settings.get_int("quake-mode-monitor")) {
+        menuItem.setOrnament(PopupMenu.Ornament.CHECK);
+      } else {
+        menuItem.setOrnament(PopupMenu.Ornament.NONE);
+      }
+      menuItem.connect("activate", () => {
+        this.settings.set_int("quake-mode-monitor", idx);
+      });
+      menu.addMenuItem(menuItem);
+    }
+    if (monitors.length > 0) {
+      //@ts-expect-error
+      menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+    }
+    this.panelButton.menu.addMenuItem(this.getSettingsItem());
+  }
 };

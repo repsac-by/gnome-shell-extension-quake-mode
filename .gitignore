@@ -1,5 +1,6 @@
 .vscode/
 locale/
+node_modules/
 *.po~
 *.pot~
 gschemas.compiled
