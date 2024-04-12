@@ -63,18 +63,18 @@ export var QuakeModeApp = class {
     this.app = null;
   }
 
-  get actor() {
+  get child() {
     if (!this.win) return null;
 
-    /** @type {import('@girs/meta-13').Meta.WindowActor} */
+    /** @type {import('@girs/meta-13').Meta.WindowChild} */
     //@ts-expect-error Incorrect return type? TODO: investigate
-    const actor = this.win.get_compositor_private();
+    const child = this.win.get_compositor_private();
 
-    if (!actor) return null;
+    if (!child) return null;
 
-    return "clip_y" in actor
-      ? actor
-      : Object.defineProperty(actor, "clip_y", {
+    return "clip_y" in child
+      ? child
+      : Object.defineProperty(child, "clip_y", {
           get() {
             return this.clip_rect.origin.y;
           },
@@ -187,22 +187,22 @@ export var QuakeModeApp = class {
   }
 
   first_place() {
-    const { win, actor } = this;
+    const { win, child } = this;
 
-    if (!win || !actor) return;
+    if (!win || !child) return;
 
-    actor.set_clip(0, 0, actor.width, 0);
+    child.set_clip(0, 0, child.width, 0);
     win.stick();
 
-    on(global.window_manager, "map", (sig, wm, metaWindowActor) => {
-      if (metaWindowActor !== actor) return;
+    on(global.window_manager, "map", (sig, wm, metaWindowChild) => {
+      if (metaWindowChild !== child) return;
 
       sig.off();
-      wm.emit("kill-window-effects", actor);
+      wm.emit("kill-window-effects", child);
 
       once(win, "size-changed", () => {
         this.state = state.RUNNING;
-        actor.remove_clip();
+        child.remove_clip();
         this.show();
       });
 
@@ -211,27 +211,27 @@ export var QuakeModeApp = class {
   }
 
   show() {
-    const { actor, focusout, valign } = this;
+    const { child, focusout, valign } = this;
 
     if (this.state !== state.RUNNING) return;
 
     if (this.isTransition) return;
 
-    if (!actor) return;
+    if (!child) return;
 
-    const parent = actor.get_parent();
+    const parent = child.get_parent();
     if (!parent) return;
 
     this.isTransition = true;
 
-    parent.set_child_above_sibling(actor, null);
-    (actor.translation_y = actor.height * (valign === "top" ? -1 : 2)),
+    parent.set_child_above_sibling(child, null);
+    (child.translation_y = child.height * (valign === "top" ? -1 : 2)),
       //@ts-expect-error Missing type. TODO: contribute to @girs
-      Main.wm.skipNextEffect(actor);
-    Main.activateWindow(actor.meta_window);
+      Main.wm.skipNextEffect(child);
+    Main.activateWindow(child.meta_window);
 
     //@ts-expect-error Missing type? TODO: investigate
-    actor.ease({
+    child.ease({
       translation_y: 0,
       duration: this.ainmation_time,
       mode: Clutter.AnimationMode.EASE_OUT_QUART,
@@ -246,9 +246,9 @@ export var QuakeModeApp = class {
   }
 
   hide() {
-    const { actor, valign } = this;
+    const { child, valign } = this;
 
-    if (!actor) return;
+    if (!child) return;
 
     if (this.state !== state.RUNNING) return;
 
@@ -257,15 +257,15 @@ export var QuakeModeApp = class {
     this.isTransition = true;
 
     //@ts-expect-error
-    actor.ease({
-      translation_y: actor.height * (valign === "top" ? -1 : 2),
+    child.ease({
+      translation_y: child.height * (valign === "top" ? -1 : 2),
       duration: this.ainmation_time,
       mode: Clutter.AnimationMode.EASE_IN_QUART,
       onComplete: () => {
         //@ts-expect-error
-        Main.wm.skipNextEffect(actor);
-        actor.meta_window.minimize();
-        actor.translation_y = 0;
+        Main.wm.skipNextEffect(child);
+        child.meta_window.minimize();
+        child.translation_y = 0;
         this.isTransition = false;
       },
     });

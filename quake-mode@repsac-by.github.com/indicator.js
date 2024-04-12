@@ -27,7 +27,7 @@ export var Indicator = class {
       icon_name: "utilities-terminal-symbolic",
       style_class: "system-status-icon",
     });
-    this.panelButton.add_actor(icon);
+    this.panelButton.add_child(icon);
 
     this.panelButton.menu.addMenuItem(this.getSettingsItem());
 
