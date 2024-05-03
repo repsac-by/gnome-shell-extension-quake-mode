@@ -2,14 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# Wedone <wedoneofficiel@outlook.fr>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-10-24 20:44+0300\n"
 "PO-Revision-Date: 2021-04-10 18:06+0200\n"
-"Last-Translator: \n"
+"Last-Translator: Wedone <wedoneofficiel@outlook.fr>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr "Minimiser à la perte de focus"
 
 #: quake-mode@repsac-by.github.com/prefs.js:60
 msgid "Hide from Overview"
-msgstr ""
+msgstr "Masquer dans l'aperçu"
 
 #: quake-mode@repsac-by.github.com/prefs.js:68
 msgid "Always on Top"
-msgstr ""
+msgstr "Toujours au premier plan"
 
 #: quake-mode@repsac-by.github.com/prefs.js:78
 msgid "Width - %"
@@ -44,31 +44,31 @@ msgstr "Hauteur - %"
 
 #: quake-mode@repsac-by.github.com/prefs.js:95
 msgid "Left"
-msgstr ""
+msgstr "Gauche"
 
 #: quake-mode@repsac-by.github.com/prefs.js:96
 msgid "Right"
-msgstr ""
+msgstr "Droite"
 
 #: quake-mode@repsac-by.github.com/prefs.js:97
 msgid "Center"
-msgstr ""
+msgstr "Centre"
 
 #: quake-mode@repsac-by.github.com/prefs.js:126
 msgid "Horizontal align"
-msgstr ""
+msgstr "Alignement horizontal"
 
 #: quake-mode@repsac-by.github.com/prefs.js:134
 msgid "Top"
-msgstr ""
+msgstr "Haut"
 
 #: quake-mode@repsac-by.github.com/prefs.js:135
 msgid "Bottom"
-msgstr ""
+msgstr "Bas"
 
 #: quake-mode@repsac-by.github.com/prefs.js:164
 msgid "Vertical align"
-msgstr ""
+msgstr "Alignement vertical"
 
 #: quake-mode@repsac-by.github.com/prefs.js:210
 msgid "Monitor"
@@ -104,4 +104,4 @@ msgstr "Raccourcis"
 
 #: quake-mode@repsac-by.github.com/indicator.js:48
 msgid "Settings"
-msgstr ""
+msgstr "Paramètres"
