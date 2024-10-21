@@ -2,7 +2,7 @@
   "name": "quake-mode",
   "description": "Drop-down mode for any application",
   "uuid": "quake-mode@repsac-by.github.com",
-  "shell-version": ["45", "46"],
+  "shell-version": ["45", "46", "47"],
   "version": 10,
   "url": "https://github.com/repsac-by/gnome-shell-extension-quake-mode",
   "settings-schema": "com.github.repsac-by.quake-mode",
